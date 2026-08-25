@@ -1,0 +1,648 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>EAST — Environmental Accountability &amp; Strategy Team</title>
+<meta name="description" content="Independent environmental research, regulatory oversight, and public accountability for Virginia communities.">
+<style>
+/* ---- Palette derived from the EAST logo (navy / forest / gold / river / cream) ---- */
+:root{
+  --navy:#16264a; --navy-ink:#0c1730; --navy-2:#22355f;
+  --green:#2e7d32; --lime:#7cb342; --gold:#e8a317; --river:#3e7cb1;
+  --cream:#f4f1e8; --bg:#ffffff; --fg:#1a1f2b; --muted:#5c6572; --line:#e4e2d8;
+  --card:#ffffff; --link:#245a97;
+  --serif:"Iowan Old Style","Palatino Linotype",Palatino,"Book Antiqua",Georgia,"Times New Roman",serif;
+  --sans:system-ui,-apple-system,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+  --mono:ui-monospace,"SFMono-Regular",Menlo,Consolas,monospace;
+  --max:1180px;
+}
+@media (prefers-color-scheme:dark){
+  :root{ --bg:#0f141f; --fg:#e9ecf2; --muted:#9aa3b2; --line:#26304a; --card:#151b28;
+         --cream:#131a26; --navy:#0e1b38; --link:#8fb6e6; }
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--bg);color:var(--fg);font-family:var(--sans);line-height:1.65;font-size:17px}
+.wrap{max-width:var(--max);margin:0 auto;padding:0 24px}
+a{color:var(--link)}
+h1,h2,h3,h4{font-family:var(--serif);font-weight:600;line-height:1.2;letter-spacing:-.01em}
+h1{font-size:2.5rem;margin:.2em 0 .3em}
+h2{font-size:1.7rem;margin:1.6em 0 .5em}
+h3{font-size:1.2rem;margin:1.1em 0 .3em}
+.lede{font-size:1.2rem;color:var(--fg)}
+.muted{color:var(--muted)}
+.mono,.meta,.crumb{font-family:var(--mono);font-size:.82rem}
+.eyebrow{font-family:var(--mono);font-size:.72rem;text-transform:uppercase;letter-spacing:.14em;color:var(--green)}
+.skip{position:absolute;left:-999px}.skip:focus{left:8px;top:8px;background:var(--gold);color:var(--navy-ink);padding:8px;z-index:20}
+
+/* Demo banner */
+.demobar{background:var(--gold);color:var(--navy-ink);text-align:center;font-family:var(--mono);font-size:.76rem;letter-spacing:.4px;padding:5px 10px}
+.demobar b{text-transform:uppercase}
+.demobar a{color:var(--navy-ink);font-weight:700}
+
+/* Header */
+header.site{background:var(--navy);color:#fff;border-bottom:3px solid var(--gold)}
+header.site a{color:#fff}
+.topbar{display:flex;align-items:center;gap:18px;padding:14px 0;flex-wrap:wrap}
+.brand{display:flex;align-items:center;gap:12px;text-decoration:none}
+.brand .seal{width:46px;height:46px;border-radius:50%;background:radial-gradient(circle at 50% 30%,var(--gold),#f6d36b 40%,var(--navy) 41%);display:grid;place-items:center;font-family:var(--serif);font-weight:700;color:#fff;font-size:.9rem;border:2px solid #fff;flex:none}
+.brand .wm{display:flex;flex-direction:column;line-height:1.05}
+.brand .wm .m{font-family:var(--serif);font-weight:700;font-size:1.5rem;letter-spacing:2px}
+.brand .wm .s{font-size:.62rem;letter-spacing:.12em;text-transform:uppercase;color:#c7d2e6}
+.nav{display:flex;gap:2px;flex-wrap:wrap;margin-left:auto}
+.nav a{padding:8px 11px;text-decoration:none;color:#dfe6f2;border-radius:6px;font-size:.92rem}
+.nav a:hover{background:var(--navy-2)}
+.nav a.on{color:#fff;background:var(--navy-2);font-weight:600}
+.menu-btn{display:none}
+@media (max-width:900px){
+  .menu-btn{display:block;margin-left:auto;background:none;border:1px solid #47578a;color:#fff;font-size:1.2rem;border-radius:6px;padding:4px 10px;cursor:pointer}
+  .nav{display:none;width:100%;order:3}.nav-open .nav{display:flex;flex-direction:column}
+}
+
+/* Views */
+.view{display:none;animation:fade .2s ease}
+.view.active{display:block}
+@keyframes fade{from{opacity:0;transform:translateY(4px)}to{opacity:1;transform:none}}
+@media (prefers-reduced-motion:reduce){.view{animation:none}}
+main{padding-bottom:40px}
+
+/* Hero */
+.hero{background:var(--cream);border-bottom:1px solid var(--line)}
+.hero .wrap{padding-top:54px;padding-bottom:54px}
+.hero .eyebrow{margin-bottom:10px}
+.hero h1{font-size:2.9rem;max-width:16ch}
+.hero p.lede{max-width:60ch;color:var(--fg)}
+.cta-row{display:flex;gap:12px;flex-wrap:wrap;margin-top:26px}
+.btn{display:inline-block;padding:12px 20px;border-radius:7px;text-decoration:none;font-weight:600;border:1.5px solid var(--navy);color:var(--navy);background:#fff;cursor:pointer;font:inherit;font-size:.96rem}
+.btn.primary{background:var(--navy);color:#fff}
+.btn.gold{background:var(--gold);border-color:var(--gold);color:var(--navy-ink)}
+.btn.ghost{border-color:var(--line);color:var(--fg);background:transparent}
+.btn:hover{opacity:.92}
+@media (prefers-color-scheme:dark){.btn{background:transparent;color:#dfe6f2;border-color:#47578a}.btn.primary{background:var(--river);border-color:var(--river);color:#fff}}
+
+/* Section rhythm */
+section.band{padding:20px 0}
+.section-head{display:flex;align-items:baseline;justify-content:space-between;gap:16px;flex-wrap:wrap;border-bottom:2px solid var(--line);padding-bottom:8px;margin-top:8px}
+.section-head h2{margin:.2em 0}
+.section-head a{font-size:.9rem;text-decoration:none;font-family:var(--sans)}
+
+/* Cards */
+.cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:20px;margin:20px 0}
+.pcard{background:var(--card);border:1px solid var(--line);border-radius:12px;overflow:hidden;display:flex;flex-direction:column}
+.pcard .top{background:linear-gradient(135deg,var(--navy),var(--navy-2));color:#fff;padding:16px 18px}
+.pcard .top h3{color:#fff;margin:.1em 0}
+.pcard .body{padding:16px 18px;flex:1}
+.pcard .body p{margin:.4em 0;font-size:.95rem}
+.pcard .foot{padding:12px 18px;border-top:1px solid var(--line);font-size:.85rem}
+.status{display:inline-block;font-family:var(--mono);font-size:.68rem;text-transform:uppercase;letter-spacing:.06em;padding:2px 9px;border-radius:20px;border:1px solid currentColor}
+.status.active{color:var(--lime)}
+.status.monitor{color:var(--gold)}
+.status.review{color:var(--river)}
+
+/* Metrics */
+.metrics{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:1px;background:var(--line);border:1px solid var(--line);border-radius:12px;overflow:hidden;margin:18px 0}
+.metric{background:var(--card);padding:20px 16px;text-align:center}
+.metric .n{font-family:var(--serif);font-size:2.1rem;font-weight:700;color:var(--navy);line-height:1}
+@media (prefers-color-scheme:dark){.metric .n{color:var(--river)}}
+.metric .l{font-size:.78rem;color:var(--muted);margin-top:6px}
+
+/* Generic content card */
+.card{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:20px 22px;margin:16px 0}
+.grid-2{display:grid;grid-template-columns:1fr 1fr;gap:24px}
+@media (max-width:760px){.grid-2{grid-template-columns:1fr}}
+.values{list-style:none;padding:0;margin:.5em 0;display:grid;gap:10px}
+.values li{padding-left:16px;border-left:3px solid var(--green)}
+.vname{font-family:var(--mono);font-size:.7rem;text-transform:uppercase;letter-spacing:.06em;color:var(--green);display:block}
+.callout{border-left:4px solid var(--gold);background:var(--cream);border-radius:0 8px 8px 0;padding:14px 18px;margin:16px 0;font-size:.96rem}
+.gm{font-family:var(--mono);font-size:.68rem;text-transform:uppercase;letter-spacing:.06em;color:var(--gold);border:1px solid var(--gold);border-radius:4px;padding:1px 6px;white-space:nowrap}
+
+/* Tables (register / evidence) */
+.toolbar{display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin:16px 0}
+.toolbar input[type=search]{flex:1;min-width:200px;font:inherit;padding:11px 14px;border:1px solid var(--line);border-radius:8px;background:var(--card);color:var(--fg)}
+.toolbar select{font:inherit;padding:11px 12px;border:1px solid var(--line);border-radius:8px;background:var(--card);color:var(--fg)}
+table.reg{width:100%;border-collapse:collapse;font-size:.92rem}
+table.reg th,table.reg td{text-align:left;padding:11px 10px;border-bottom:1px solid var(--line);vertical-align:top}
+table.reg th{font-family:var(--mono);font-size:.7rem;text-transform:uppercase;letter-spacing:.04em;color:var(--muted)}
+table.reg tbody tr:hover{background:var(--cream)}
+.pubno{font-family:var(--mono);font-size:.82rem;color:var(--green);white-space:nowrap}
+.rev{font-family:var(--mono);font-size:.68rem;text-transform:uppercase;padding:2px 8px;border-radius:20px;border:1px solid currentColor;white-space:nowrap}
+.rev.pub{color:var(--green)}.rev.draft{color:var(--gold)}.rev.rev{color:var(--river)}
+
+/* Project sub-nav */
+.subnav{display:flex;gap:6px;flex-wrap:wrap;margin:14px 0;padding-bottom:8px;border-bottom:1px solid var(--line)}
+.subnav a{font-family:var(--mono);font-size:.76rem;text-decoration:none;border:1px solid var(--line);padding:5px 10px;border-radius:20px;color:var(--fg)}
+.subnav a:hover{border-color:var(--navy);color:var(--navy)}
+.timeline{list-style:none;padding:0;margin:.5em 0}
+.timeline li{padding:8px 0 8px 18px;border-left:2px solid var(--line);position:relative}
+.timeline li::before{content:"";position:absolute;left:-6px;top:14px;width:10px;height:10px;border-radius:50%;background:var(--gold)}
+.timeline .d{font-family:var(--mono);font-size:.78rem;color:var(--muted)}
+
+/* FAQ */
+.faq details{border:1px solid var(--line);border-radius:8px;padding:12px 16px;margin:8px 0;background:var(--card)}
+.faq summary{cursor:pointer;font-weight:600;font-family:var(--serif)}
+
+/* Publication article */
+.article-body{font-size:1.06rem;max-width:70ch}
+.article-body p{margin:1em 0}
+.verify-box{border:1px solid var(--line);border-radius:12px;background:var(--cream);padding:18px 20px;margin:22px 0}
+.vbadge{font-family:var(--mono);font-size:.66rem;text-transform:uppercase;letter-spacing:.04em;padding:2px 8px;border-radius:20px;border:1px solid currentColor;white-space:nowrap}
+.vbadge.ok{color:var(--green)}.vbadge.corrob{color:var(--river)}.vbadge.flag{color:var(--gold)}
+.srcq{font-family:var(--mono);font-size:.8rem;color:var(--muted)}
+.fig-stub{border:1px dashed var(--line);border-radius:10px;background:var(--card);padding:16px;text-align:center;color:var(--muted);font-size:.85rem;margin:16px 0}
+
+/* Contact / support */
+.contact-grid{display:grid;grid-template-columns:1fr 1fr;gap:20px}
+@media (max-width:700px){.contact-grid{grid-template-columns:1fr}}
+.field{margin:12px 0}
+.field label{display:block;font-family:var(--mono);font-size:.72rem;text-transform:uppercase;letter-spacing:.04em;color:var(--muted);margin-bottom:5px}
+.field input{width:100%;font:inherit;padding:10px 12px;border:1px solid var(--line);border-radius:8px;background:var(--card);color:var(--fg)}
+
+/* Share */
+.share{display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin:28px 0;padding-top:16px;border-top:1px dashed var(--line)}
+.share-label{font-family:var(--mono);font-size:.78rem;color:var(--muted)}
+.share a,.share .share-btn{font-family:var(--mono);font-size:.78rem;text-decoration:none;border:1px solid var(--line);padding:4px 10px;border-radius:20px;color:var(--fg);background:transparent;cursor:pointer}
+.share a:hover,.share .share-btn:hover{border-color:var(--navy);color:var(--navy)}
+
+/* Footer */
+footer.site{background:var(--navy-ink);color:#c7d2e6;margin-top:20px;border-top:3px solid var(--gold)}
+footer.site a{color:#dfe6f2}
+.foot-grid{display:grid;grid-template-columns:2fr 1fr 1fr;gap:28px;padding:36px 0}
+@media (max-width:760px){.foot-grid{grid-template-columns:1fr}}
+.foot-grid h4{color:#fff;font-size:.8rem;text-transform:uppercase;letter-spacing:.08em;font-family:var(--mono);font-weight:600;margin:0 0 10px}
+.foot-grid ul{list-style:none;padding:0;margin:0;display:grid;gap:6px;font-size:.9rem}
+.foot-bottom{border-top:1px solid #2a3556;padding:16px 0;font-size:.82rem;display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap}
+.captcha{display:flex;gap:10px;align-items:flex-end;flex-wrap:wrap;margin-top:10px}
+.captcha input{width:90px}
+.crumb a{text-decoration:none}
+</style>
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+<div class="demobar"><b>Demo</b> · institute redesign (Steve's vision) — static mock · compare with the <a href="../public/">original</a></div>
+
+<header class="site">
+  <div class="wrap topbar">
+    <a class="brand" data-view="home" href="#home">
+      <span class="seal">EAST</span>
+      <span class="wm"><span class="m">EAST</span><span class="s">Environmental Accountability &amp; Strategy Team</span></span>
+    </a>
+    <button class="menu-btn" aria-label="Menu" onclick="document.body.classList.toggle('nav-open')">☰</button>
+    <nav class="nav" id="nav">
+      <a data-view="home">Home</a>
+      <a data-view="about">About EAST</a>
+      <a data-view="projects">Projects</a>
+      <a data-view="publications">Publications</a>
+      <a data-view="evidence">Evidence Library</a>
+      <a data-view="resources">Resources</a>
+      <a data-view="news">News</a>
+      <a data-view="support">Support EAST</a>
+      <a data-view="contact">Contact</a>
+    </nav>
+  </div>
+</header>
+
+<main id="main">
+
+  <!-- ================= HOME ================= -->
+  <section class="view active" id="v-home">
+    <div class="hero">
+      <div class="wrap">
+        <p class="eyebrow">Environmental Accountability &amp; Strategy Team</p>
+        <h1>Independent environmental research and regulatory oversight for Virginia communities.</h1>
+        <p class="lede">EAST is an evidence-driven organization committed to objective research, regulatory oversight, transparency, and responsible stewardship — providing the public, journalists, attorneys, and decision-makers reliable access to primary-source records.</p>
+        <div class="cta-row">
+          <a class="btn primary" data-view="about">Learn About EAST</a>
+          <a class="btn" data-view="projects">Current Projects</a>
+          <a class="btn" data-view="publications">Latest Publications</a>
+          <a class="btn gold" data-view="support">Support Our Work</a>
+        </div>
+      </div>
+    </div>
+
+    <div class="wrap">
+      <section class="band">
+        <div class="section-head"><h2>Current Projects</h2><a data-view="projects">All projects →</a></div>
+        <div class="cards">
+          <div class="pcard">
+            <div class="top"><span class="status active">Active investigation</span><h3>Project Raspberry</h3></div>
+            <div class="body">
+              <p class="muted">A proposed Google-linked hyperscale data-center campus at Greenfield, Botetourt County, and its water, power, and permitting record.</p>
+              <p><strong>Latest report:</strong> <a data-view="pub-water">Real water numbers (Issue Brief EAST-2026-001)</a></p>
+              <p class="muted">Recent: USACE &amp; DEQ permit comment periods monitored; FOIA records analyzed.</p>
+            </div>
+            <div class="foot"><a data-view="project-raspberry">Open project page →</a></div>
+          </div>
+          <div class="pcard">
+            <div class="top"><span class="status monitor">Scoping</span><h3>Regional Water Stewardship</h3></div>
+            <div class="body">
+              <p class="muted">Cross-jurisdiction monitoring of water-supply commitments and drought planning in the Roanoke Valley watershed.</p>
+              <p class="muted"><span class="gm">GM</span> Project charter pending Governance Manual.</p>
+            </div>
+            <div class="foot"><a data-view="projects">Learn more →</a></div>
+          </div>
+        </div>
+      </section>
+
+      <section class="band">
+        <div class="section-head"><h2>Latest Publications</h2><a data-view="publications">Publication register →</a></div>
+        <table class="reg">
+          <thead><tr><th>No.</th><th>Title</th><th>Date</th><th>Type</th><th>Status</th></tr></thead>
+          <tbody>
+            <tr onclick="show('pub-water')" style="cursor:pointer"><td class="pubno">EAST-2026-001</td><td>Botetourt, Roanoke region deserve real water numbers for Project Raspberry</td><td class="mono">2026-07-09</td><td>Issue Brief</td><td><span class="rev pub">Published</span></td></tr>
+            <tr><td class="pubno">EAST-2026-002</td><td>Project Raspberry Permit Package Review — Key Findings</td><td class="mono">2026-04-17</td><td>Technical Memo</td><td><span class="rev pub">Published</span></td></tr>
+            <tr><td class="pubno">EAST-2026-003</td><td>Technical Objection — DEQ/USACE Permit Deficiencies</td><td class="mono">2026-04-17</td><td>Technical Memo</td><td><span class="rev pub">Published</span></td></tr>
+          </tbody>
+        </table>
+      </section>
+
+      <section class="band">
+        <div class="section-head"><h2>Why EAST Exists</h2><span class="gm">GM — final wording pending</span></div>
+        <div class="grid-2">
+          <div>
+            <h3>Mission</h3>
+            <p>EAST works for environmental stewardship, transparency, accountability, informed public participation, and responsible, collaborative decision-making — researching the record, reviewing technical and regulatory detail, and educating the public.</p>
+            <h3>Vision</h3>
+            <p>A regional public knowledge repository where residents and decision-makers can rely on documented evidence rather than framing.</p>
+          </div>
+          <div>
+            <h3>Our commitments</h3>
+            <ul class="values">
+              <li><span class="vname">Scientific integrity</span> Claims are grounded in documents and analysis we clearly label as our own.</li>
+              <li><span class="vname">Public accountability</span> How funds — and what they produce — are used is clear to supporters.</li>
+              <li><span class="vname">Environmental stewardship</span> Work undertaken for community benefit, not private gain.</li>
+            </ul>
+          </div>
+        </div>
+      </section>
+
+      <section class="band">
+        <div class="section-head"><h2>Organizational Impact</h2><span class="gm">GM — figures to be confirmed</span></div>
+        <div class="metrics">
+          <div class="metric"><div class="n">32</div><div class="l">FOIA requests submitted</div></div>
+          <div class="metric"><div class="n">180+</div><div class="l">Documents analyzed</div></div>
+          <div class="metric"><div class="n">7</div><div class="l">Technical reports published</div></div>
+          <div class="metric"><div class="n">4</div><div class="l">Regulatory actions monitored</div></div>
+          <div class="metric"><div class="n">1,200+</div><div class="l">Volunteer hours</div></div>
+          <div class="metric"><div class="n">9</div><div class="l">Community outreach activities</div></div>
+        </div>
+        <p class="muted" style="font-size:.85rem">Illustrative figures — to be finalized and verified per the Governance Manual before publication.</p>
+      </section>
+    </div>
+  </section>
+
+  <!-- ================= ABOUT ================= -->
+  <section class="view" id="v-about">
+    <div class="wrap">
+      <p class="eyebrow">About EAST</p>
+      <h1>A professionally governed research organization.</h1>
+      <p class="lede">EAST is organized to produce credible, well-documented research and to maintain strong governance, document control, and financial accountability.</p>
+
+      <div class="grid-2">
+        <div class="card"><h3>Mission Statement</h3><p>Environmental stewardship, transparency, accountability, informed public participation, and responsible, collaborative decision-making across the Roanoke Valley, Botetourt County, and neighboring Virginia regions.</p></div>
+        <div class="card"><h3>Organizational History</h3><p>Founded by residents and technical volunteers to bring documented evidence to regional environmental and land-use decisions. <span class="gm">GM</span> Full history pending.</p></div>
+      </div>
+
+      <h2>Governance &amp; Accountability</h2>
+      <div class="cards">
+        <div class="card"><h3>Governance Structure</h3><p class="muted"><span class="gm">GM</span> Board, officers, and committees as defined in the EAST Governance Manual.</p></div>
+        <div class="card"><h3>Leadership</h3><p class="muted"><span class="gm">GM</span> Governed by the EAST board; named roles per the Manual.</p></div>
+        <div class="card"><h3>Operating Principles</h3><p class="muted">Accuracy · Independence · Transparency · Public service.</p></div>
+        <div class="card"><h3>Organizational Policies</h3><p class="muted"><span class="gm">GM</span> Conflict-of-interest, records, and publication-review policies.</p></div>
+        <div class="card"><h3>Document Control System</h3><p class="muted"><span class="gm">GM</span> Publication numbering, versioning, and review status.</p></div>
+        <div class="card"><h3>Financial Accountability</h3><p class="muted"><span class="gm">GM</span> Fund-use transparency &amp; annual reports.</p></div>
+      </div>
+      <p class="callout"><strong>Independence:</strong> EAST sets its own priorities and is never an instrument for another organization's or official's agenda. It is an instrument of power through knowledge.</p>
+    </div>
+  </section>
+
+  <!-- ================= PROJECTS ================= -->
+  <section class="view" id="v-projects">
+    <div class="wrap">
+      <p class="eyebrow">Projects</p>
+      <h1>Active investigations.</h1>
+      <p class="lede">Each project maintains its own record: overview, timeline, regulatory status, technical reports, and primary-source documents.</p>
+      <div class="cards">
+        <div class="pcard">
+          <div class="top"><span class="status active">Active</span><h3>Project Raspberry</h3></div>
+          <div class="body"><p class="muted">Google-linked hyperscale data center, Greenfield, Botetourt County. Water, power, permitting, and governance.</p></div>
+          <div class="foot"><a data-view="project-raspberry">Open project page →</a></div>
+        </div>
+        <div class="pcard">
+          <div class="top"><span class="status monitor">Scoping</span><h3>Regional Water Stewardship</h3></div>
+          <div class="body"><p class="muted"><span class="gm">GM</span> Charter pending.</p></div>
+          <div class="foot"><span class="muted">Coming soon</span></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== PROJECT: RASPBERRY LANDING ===== -->
+  <section class="view" id="v-project-raspberry">
+    <div class="wrap">
+      <p class="crumb"><a data-view="projects">← Projects</a></p>
+      <h1>Project Raspberry</h1>
+      <p class="lede">A proposed Google-linked (“Helios/Helio Capital”) hyperscale data-center campus at Greenfield, Botetourt County — advanced under a shell entity and NDAs. <span class="status active">Active investigation</span></p>
+      <nav class="subnav">
+        <a onclick="j('pr-overview')">Overview</a><a onclick="j('pr-timeline')">Timeline</a><a onclick="j('pr-reg')">Regulatory Status</a>
+        <a onclick="j('pr-agency')">Agency Actions</a><a onclick="j('pr-reports')">Technical Reports</a><a onclick="j('pr-foia')">FOIA Documents</a>
+        <a onclick="j('pr-maps')">Maps</a><a onclick="j('pr-faq')">FAQ</a><a onclick="j('pr-notices')">Public Notices</a><a onclick="j('pr-news')">Related News</a>
+      </nav>
+
+      <h2 id="pr-overview">Overview</h2>
+      <p>Public records indicate planning for 3.5 MGD at “Day 01” scaling toward 10–11 MGD at full build, a ~$170M dedicated water-main, and 120 diesel generators — against a public figure of “up to 8 MGD.” EAST analyzes the record and the gap between public framing and planning documents.</p>
+
+      <h2 id="pr-timeline">Timeline</h2>
+      <ul class="timeline">
+        <li><span class="d">2024-03</span> Confidentiality/NDA agreements referenced among local officials.</li>
+        <li><span class="d">2025-06</span> Helio Capital LLC &amp; Botetourt County EDA performance (incentives) agreement.</li>
+        <li><span class="d">2026-04</span> USACE/DEQ permit deficiency objections filed; applicant additional-info responses.</li>
+        <li><span class="d">2026-07</span> “Real water numbers” issue brief published from FOIA records.</li>
+      </ul>
+
+      <h2 id="pr-reg">Regulatory Status</h2>
+      <table class="reg"><thead><tr><th>Permit</th><th>Agency</th><th>Covers</th><th>Status</th></tr></thead><tbody>
+        <tr><td class="mono">NAO-2025-01857</td><td>USACE</td><td>6,715 lf streams; 3.24 ac wetlands</td><td><span class="rev rev">Under review</span></td></tr>
+        <tr><td class="mono">VWP #126433</td><td>Virginia DEQ</td><td>Water / streams</td><td><span class="rev rev">Under review</span></td></tr>
+        <tr><td class="mono">Minor NSR</td><td>Virginia DEQ</td><td>Air — 120 diesel generators</td><td><span class="rev rev">Under review</span></td></tr>
+      </tbody></table>
+
+      <h2 id="pr-agency">Agency Actions</h2>
+      <p class="muted">Correspondence with USACE (Norfolk District) and Virginia DEQ regional offices; Section 7 (ESA) and Section 106 (NHPA / Monacan Nation) consultation questions. See <a data-view="evidence">Evidence Library</a>.</p>
+
+      <h2 id="pr-reports">Technical Reports</h2>
+      <ul>
+        <li><a data-view="pub-water">EAST-2026-001 · Real Water Numbers (Issue Brief)</a></li>
+        <li>EAST-2026-002 · Permit Package Review — Key Findings</li>
+        <li>EAST-2026-003 · Technical Objection — DEQ/USACE Deficiencies</li>
+      </ul>
+
+      <h2 id="pr-foia">FOIA Documents</h2>
+      <p class="muted">FOIA-released records (WVWA water agreements, county internal messaging, agency correspondence) are catalogued in the <a data-view="evidence">Evidence Library</a>, filtered by FOIA request.</p>
+
+      <h2 id="pr-maps">Maps</h2>
+      <div class="fig-stub">🗺 Interactive map (Leaflet, self-hosted) — parcel, watershed, and infrastructure overlays. <em>Phase 3.</em></div>
+
+      <h2 id="pr-faq">Frequently Asked Questions</h2>
+      <div class="faq">
+        <details><summary>What is the true maximum water demand?</summary><p>Public figure is “up to 8 MGD”; FOIA planning records point to 10–11 MGD at full build. See EAST-2026-001.</p></details>
+        <details><summary>Who is the applicant?</summary><p>Advanced via “Helio Capital LLC,” a Delaware shell entity linked to Google.</p></details>
+      </div>
+
+      <h2 id="pr-notices">Public Notices</h2>
+      <p class="muted">USACE public notice NAO-2025-01857; DEQ comment periods. Current open windows posted here when active.</p>
+
+      <h2 id="pr-news">Related News</h2>
+      <ul><li><a data-view="news">Publication release: Real water numbers issue brief</a> <span class="mono muted">2026-07-09</span></li></ul>
+      <div class="share" data-share="Project Raspberry — EAST" aria-label="Share"></div>
+    </div>
+  </section>
+
+  <!-- ================= PUBLICATIONS ================= -->
+  <section class="view" id="v-publications">
+    <div class="wrap">
+      <p class="eyebrow">Publications</p>
+      <h1>Publication register.</h1>
+      <p class="lede">A searchable library of EAST's research — not a blog. Each entry carries a publication number, version, date, author, review status, and citation. <span class="gm">GM</span> Numbering &amp; review status per the Governance Manual.</p>
+      <div class="toolbar">
+        <input id="pub-q" type="search" placeholder="Search publications…" aria-label="Search publications" oninput="filterPubs()">
+        <select id="pub-type" onchange="filterPubs()">
+          <option value="">All types</option>
+          <option>Environmental Report</option><option>Technical Memo</option><option>Issue Brief</option>
+          <option>Governance Document</option><option>Annual Report</option><option>Financial Report</option>
+        </select>
+      </div>
+      <table class="reg">
+        <thead><tr><th>No.</th><th>Ver.</th><th>Title</th><th>Date</th><th>Type</th><th>Author</th><th>Status</th></tr></thead>
+        <tbody id="pub-rows">
+          <tr onclick="show('pub-water')" style="cursor:pointer" data-type="Issue Brief"><td class="pubno">EAST-2026-001</td><td class="mono">1.0</td><td>Botetourt, Roanoke region deserve real water numbers for Project Raspberry</td><td class="mono">2026-07-09</td><td>Issue Brief</td><td>EAST</td><td><span class="rev pub">Published</span></td></tr>
+          <tr data-type="Technical Memo"><td class="pubno">EAST-2026-002</td><td class="mono">1.1</td><td>Project Raspberry Permit Package Review — Key Findings</td><td class="mono">2026-04-17</td><td>Technical Memo</td><td>EAST</td><td><span class="rev pub">Published</span></td></tr>
+          <tr data-type="Technical Memo"><td class="pubno">EAST-2026-003</td><td class="mono">1.0</td><td>Technical Objection — DEQ/USACE Permit Deficiencies</td><td class="mono">2026-04-17</td><td>Technical Memo</td><td>EAST</td><td><span class="rev pub">Published</span></td></tr>
+          <tr data-type="Environmental Report"><td class="pubno">EAST-2026-004</td><td class="mono">0.9</td><td>Water &amp; Cooling Demand Analysis — Carvins Cove</td><td class="mono">2026-06-11</td><td>Environmental Report</td><td>EAST</td><td><span class="rev rev">In review</span></td></tr>
+          <tr data-type="Issue Brief"><td class="pubno">EAST-2026-005</td><td class="mono">0.5</td><td>Endangered &amp; Threatened Species at Risk</td><td class="mono">2026-06-16</td><td>Issue Brief</td><td>EAST</td><td><span class="rev draft">Draft</span></td></tr>
+          <tr data-type="Governance Document"><td class="pubno">EAST-GOV-001</td><td class="mono">0.9</td><td>EAST Governance Manual</td><td class="mono">—</td><td>Governance Document</td><td>EAST Board</td><td><span class="rev draft">In progress</span></td></tr>
+        </tbody>
+      </table>
+      <p class="muted" id="pub-count" style="margin-top:8px"></p>
+    </div>
+  </section>
+
+  <!-- ===== PUBLICATION: WATER ISSUE BRIEF ===== -->
+  <section class="view" id="v-pub-water">
+    <div class="wrap">
+      <p class="crumb"><a data-view="publications">← Publications</a></p>
+      <p class="eyebrow">Issue Brief · <span class="pubno">EAST-2026-001</span> · v1.0 · Review status: Published</p>
+      <h1>Botetourt, Roanoke region deserve real water numbers for Google's Project Raspberry</h1>
+      <p class="meta">2026-07-09 · Author: Environmental Accountability &amp; Strategy Team · Cite as: EAST (2026), Issue Brief EAST-2026-001.</p>
+      <div class="fig-stub">📷 The water level is 14.7 ft below full pond at Carvins Cove Natural Reserve, July 9, 2026, Roanoke. (Photograph — SWVA DCTA)</div>
+      <div class="article-body">
+        <p>The public has repeatedly heard that the project may need <strong>up to 8 million gallons of water per day</strong>. But public records show the planning discussions were larger. In July 2024, project questions asked how to reach <strong>3.5 MGD for “Day 01”</strong> and discussed a dedicated water-main extension, tanks and pumps to achieve <strong>10 to 11 MGD</strong> to the site. In April 2026, when WVWA asked whether Google wanted to keep a “Day 1 plus Day N” approach or “skip over Day 1,” a Google representative responded that the preferred approach was to proceed with Day N and skip Day 1.</p>
+        <p>(These documents were acquired through a Freedom of Information Act request.) That does not prove WVWA has agreed to provide 10 or 11 MGD — but it shows the public has not been given the full picture. Water capacity affects drought planning, reservoir reliability, infrastructure costs, ratepayer risk, and future users. If the larger scenario is no longer pursued, Google, WVWA and Botetourt County should say so in writing. If it remains, the public deserves to know before grading begins.</p>
+        <p>The question is simple: what is the true maximum water demand for Project Raspberry, who pays for the infrastructure, and what happens during drought? Those answers should be public. Not later. Now.</p>
+      </div>
+      <div class="verify-box">
+        <p class="eyebrow" style="color:var(--navy)">Sources &amp; claim verification</p>
+        <p class="muted" style="font-size:.92rem">Every factual claim is checked against a primary source — EAST's scientific-integrity standard. Key water figures trace to a FOIA-released planning agenda; each row links to the record in the <a data-view="evidence">Evidence Library</a>.</p>
+        <table class="reg"><thead><tr><th>Claim</th><th>Verdict</th><th>Primary source</th></tr></thead><tbody>
+          <tr><td>“up to 8 MGD” public figure</td><td><span class="vbadge ok">Verified</span></td><td class="srcq">WVWA “total flow is limited to 8 mgd” — Agenda for Raspberry WRA (FOIA)</td></tr>
+          <tr><td>3.5 MGD “Day 01”</td><td><span class="vbadge ok">Verified · primary</span></td><td class="srcq">“3.5 MGD just for Raspberry on Day 1” (FOIA)</td></tr>
+          <tr><td>10–11 MGD “Day N”</td><td><span class="vbadge ok">Verified · primary</span></td><td class="srcq">“…10–11 MGD to the site” (FOIA)</td></tr>
+          <tr><td>~$170M water-main / tanks &amp; pumps</td><td><span class="vbadge ok">Verified · primary</span></td><td class="srcq">“ballpark $170M project with tanks, pumps, watermain” (FOIA)</td></tr>
+          <tr><td>April 2026 “Day N, skip Day 1”</td><td><span class="vbadge corrob">Corroborated</span></td><td class="srcq">“Real Water Numbers” email + voice memo</td></tr>
+          <tr><td>14.7 ft below full pond, Jul 9</td><td><span class="vbadge flag">Author observation</span></td><td class="srcq">Dated photograph; trend corroborated by WVWA reservoir data</td></tr>
+        </tbody></table>
+      </div>
+      <div class="share" data-share="EAST-2026-001: Real water numbers for Project Raspberry" aria-label="Share"></div>
+    </div>
+  </section>
+
+  <!-- ================= EVIDENCE LIBRARY ================= -->
+  <section class="view" id="v-evidence">
+    <div class="wrap">
+      <p class="eyebrow">Evidence Library</p>
+      <h1>Primary-source document repository.</h1>
+      <p class="lede">Search the record by project, agency, permit, FOIA request, document type, date, or keyword. Researchers, journalists, attorneys, regulators, and citizens can locate primary sources directly.</p>
+      <div class="toolbar">
+        <input id="ev-q" type="search" placeholder="Keyword (e.g. water, NDA, Helio, wetland)…" aria-label="Search evidence" oninput="filterEv()">
+        <select id="ev-project" onchange="filterEv()"><option value="">All projects</option><option>Project Raspberry</option></select>
+        <select id="ev-agency" onchange="filterEv()"><option value="">All agencies</option><option>USACE</option><option>Virginia DEQ</option><option>WVWA</option><option>Botetourt County</option><option>USFWS</option></select>
+        <select id="ev-type" onchange="filterEv()"><option value="">All types</option><option>Permit</option><option>Agreement</option><option>Correspondence</option><option>Report</option><option>FOIA record</option></select>
+      </div>
+      <table class="reg">
+        <thead><tr><th>Document</th><th>Project</th><th>Agency</th><th>Type</th><th>Date</th></tr></thead>
+        <tbody id="ev-rows">
+          <tr data-agency="Botetourt County" data-type="Agreement"><td>Helio Capital LLC &amp; Botetourt EDA — Performance Agreement</td><td>Project Raspberry</td><td>Botetourt County</td><td>Agreement</td><td class="mono">2025-06-24</td></tr>
+          <tr data-agency="USACE" data-type="Permit"><td>USACE Public Notice NAO-2025-01857</td><td>Project Raspberry</td><td>USACE</td><td>Permit</td><td class="mono">2026-03-18</td></tr>
+          <tr data-agency="WVWA" data-type="Agreement"><td>WVWA &amp; Google Water Services Agreement (FOIA)</td><td>Project Raspberry</td><td>WVWA</td><td>Agreement</td><td class="mono">2026-04-24</td></tr>
+          <tr data-agency="Virginia DEQ" data-type="Permit"><td>DEQ Air Permit Application — 120 diesel generators</td><td>Project Raspberry</td><td>Virginia DEQ</td><td>Permit</td><td class="mono">2026-05-01</td></tr>
+          <tr data-agency="USFWS" data-type="Report"><td>IPaC Official Species List (Indiana Bat, Roanoke Logperch)</td><td>Project Raspberry</td><td>USFWS</td><td>Report</td><td class="mono">2026-03-19</td></tr>
+          <tr data-agency="USACE" data-type="Correspondence"><td>USACE — Project Raspberry Corps Correspondence (FOIA)</td><td>Project Raspberry</td><td>USACE</td><td>Correspondence</td><td class="mono">2026-04-01</td></tr>
+        </tbody>
+      </table>
+      <p class="muted" id="ev-count" style="margin-top:8px"></p>
+      <p class="callout"><strong>Publication discipline:</strong> only documents cleared through EAST's review gate appear here. Litigation-sensitive material is withheld until reviewed.</p>
+    </div>
+  </section>
+
+  <!-- ================= RESOURCES ================= -->
+  <section class="view" id="v-resources">
+    <div class="wrap">
+      <p class="eyebrow">Resources</p>
+      <h1>Reference materials for the public.</h1>
+      <div class="cards">
+        <div class="card"><h3>Environmental Laws &amp; Regulations</h3><p class="muted">Clean Water Act §404, ESA §7, NHPA §106, Virginia water-protection regulations.</p></div>
+        <div class="card"><h3>Permit Tracking</h3><p class="muted">How to follow USACE and Virginia DEQ permits and comment periods.</p></div>
+        <div class="card"><h3>Agency Links</h3><p class="muted">USACE Norfolk District · Virginia DEQ · USFWS · WVWA · Botetourt County.</p></div>
+        <div class="card"><h3>FOIA Guidance</h3><p class="muted">How to file a Virginia FOIA request, with a fill-in template.</p></div>
+        <div class="card"><h3>Public Participation Guides</h3><p class="muted">How to submit a public comment that becomes part of the regulatory record.</p></div>
+        <div class="card"><h3>Technical Glossary</h3><p class="muted">MGD, hyperscale, NSR, VWP, LEDPA, cumulative impact — in plain language.</p></div>
+        <div class="card"><h3>Interactive Maps</h3><p class="muted"><span class="gm">Phase 3</span> Parcel, watershed, and infrastructure overlays (Leaflet).</p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= NEWS ================= -->
+  <section class="view" id="v-news">
+    <div class="wrap">
+      <p class="eyebrow">News</p>
+      <h1>Organizational updates.</h1>
+      <p class="lede">Factual updates — publication releases, permit milestones, agency announcements, and public meetings. (Analysis lives in <a data-view="publications">Publications</a>.)</p>
+      <table class="reg"><thead><tr><th>Date</th><th>Update</th><th>Type</th></tr></thead><tbody>
+        <tr><td class="mono">2026-07-09</td><td>Publication release: Issue Brief EAST-2026-001, “Real water numbers for Project Raspberry.”</td><td>Publication</td></tr>
+        <tr><td class="mono">2026-04-17</td><td>Technical objection filed with USACE and Virginia DEQ on permit deficiencies.</td><td>Regulatory</td></tr>
+        <tr><td class="mono">2026-04-24</td><td>WVWA releases Google data-center water records following FOIA request.</td><td>Agency</td></tr>
+      </tbody></table>
+    </div>
+  </section>
+
+  <!-- ================= SUPPORT ================= -->
+  <section class="view" id="v-support">
+    <div class="wrap">
+      <p class="eyebrow">Support EAST</p>
+      <h1>Fund independent oversight.</h1>
+      <p class="lede">Contributions fund research, public-records requests, and technical review — not private gain. Where every dollar goes is meant to be understandable to supporters.</p>
+      <div class="grid-2">
+        <div class="card"><h3>What your support funds</h3>
+          <ul><li>FOIA request and records costs</li><li>Technical and regulatory review</li><li>Educational outreach</li><li>Equipment &amp; operating expenses</li></ul>
+        </div>
+        <div class="card"><h3>Financial stewardship</h3><p class="muted"><span class="gm">GM</span> Fund-use transparency and annual reporting per the Governance Manual.</p>
+          <a class="btn gold" href="#" onclick="return false">♥ Support EAST</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= CONTACT ================= -->
+  <section class="view" id="v-contact">
+    <div class="wrap">
+      <p class="eyebrow">Contact</p>
+      <h1>Get in touch.</h1>
+      <div class="contact-grid">
+        <div class="card"><h3>General &amp; media inquiries</h3>
+          <p class="muted">To reduce spam, our address is revealed after a quick check.</p>
+          <p>What is <strong>4 + 7</strong>? <span class="captcha"><input type="text" aria-label="answer"><button class="btn" type="button" onclick="document.getElementById('rev').style.display='inline'">Reveal</button></span></p>
+          <p id="rev" style="display:none">Email: <span class="mono">east.ops@proton.me</span></p>
+        </div>
+        <div class="card"><h3>Get involved</h3>
+          <div class="field"><label>Volunteer — your email</label><input type="email" placeholder="you@example.com"></div>
+          <div class="field"><label>Newsletter sign-up</label><input type="email" placeholder="you@example.com"></div>
+          <button class="btn primary" type="button" onclick="return false">Sign up</button>
+          <p class="muted" style="margin-top:12px;font-size:.85rem">Organizational mailing address published when established.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer class="site">
+  <div class="wrap">
+    <div class="foot-grid">
+      <div>
+        <h4>EAST</h4>
+        <p style="font-size:.9rem">Environmental Accountability &amp; Strategy Team — independent environmental research, regulatory oversight, and public accountability for Virginia communities.</p>
+        <p class="mono" style="font-size:.72rem">Publication Register · Document Control <span class="gm">GM</span></p>
+      </div>
+      <div><h4>Organization</h4><ul>
+        <li><a data-view="about">Mission Statement</a></li>
+        <li><a data-view="publications">Publication Register</a></li>
+        <li><a data-view="about">Document Control</a></li>
+        <li><a data-view="contact">Contact</a></li>
+      </ul></div>
+      <div><h4>Connect</h4><ul>
+        <li><a href="#" onclick="return false">Privacy Policy</a></li>
+        <li><a data-view="support">Support EAST</a></li>
+        <li><a href="#" onclick="return false">Instagram</a></li>
+        <li><a href="#" onclick="return false">Facebook</a></li>
+      </ul></div>
+    </div>
+    <div class="wrap foot-bottom">
+      <span>© 2026 Environmental Accountability &amp; Strategy Team. All rights reserved.</span>
+      <span class="mono">Institute-redesign demo · not legal-reviewed</span>
+    </div>
+  </div>
+</footer>
+
+<script>
+  function show(id){
+    var el=document.getElementById('v-'+id);
+    if(!el){ id='home'; el=document.getElementById('v-home'); }
+    document.querySelectorAll('.view').forEach(function(v){ v.classList.remove('active'); });
+    el.classList.add('active');
+    document.querySelectorAll('.nav a').forEach(function(a){ a.classList.toggle('on', a.getAttribute('data-view')===id); });
+    document.body.classList.remove('nav-open');
+    window.scrollTo(0,0);
+    try{ history.replaceState(null,'','#'+id); }catch(e){}
+  }
+  document.addEventListener('click', function(e){
+    var t=e.target.closest('[data-view]');
+    if(t){ e.preventDefault(); show(t.getAttribute('data-view')); }
+  });
+  function j(id){ var el=document.getElementById(id); if(el) el.scrollIntoView({behavior:'smooth'}); }
+
+  function filterPubs(){
+    var q=(document.getElementById('pub-q').value||'').toLowerCase(), t=document.getElementById('pub-type').value;
+    var rows=document.querySelectorAll('#pub-rows tr'), n=0;
+    rows.forEach(function(tr){ var hit=(!q||tr.textContent.toLowerCase().indexOf(q)>-1)&&(!t||tr.getAttribute('data-type')===t);
+      tr.style.display=hit?'':'none'; if(hit)n++; });
+    document.getElementById('pub-count').textContent=n+' publication(s)';
+  }
+  function filterEv(){
+    var q=(document.getElementById('ev-q').value||'').toLowerCase(),
+        p=document.getElementById('ev-project').value, a=document.getElementById('ev-agency').value, ty=document.getElementById('ev-type').value;
+    var rows=document.querySelectorAll('#ev-rows tr'), n=0;
+    rows.forEach(function(tr){
+      var hit=(!q||tr.textContent.toLowerCase().indexOf(q)>-1)&&(!a||tr.getAttribute('data-agency')===a)&&(!ty||tr.getAttribute('data-type')===ty)&&(!p||tr.textContent.indexOf(p)>-1);
+      tr.style.display=hit?'':'none'; if(hit)n++; });
+    document.getElementById('ev-count').textContent=n+' document(s)';
+  }
+
+  function buildShareRows(){
+    document.querySelectorAll('.share[data-share]').forEach(function(row){
+      var title=row.getAttribute('data-share');
+      row.innerHTML='<span class="share-label">Share:</span>'+
+        '<a class="share-btn" onclick="shareNet(\'x\',this)" data-title="'+title+'">X</a>'+
+        '<a class="share-btn" onclick="shareNet(\'facebook\',this)" data-title="'+title+'">Facebook</a>'+
+        '<a class="share-btn" onclick="shareNet(\'linkedin\',this)" data-title="'+title+'">LinkedIn</a>'+
+        '<a class="share-btn" onclick="shareNet(\'email\',this)" data-title="'+title+'">Email</a>'+
+        '<button type="button" class="share-btn" onclick="eastCopy(this)">Copy link</button>';
+    });
+  }
+  function shareNet(net,el){
+    var url=encodeURIComponent(location.href), title=encodeURIComponent(el.getAttribute('data-title')||document.title);
+    var map={ x:'https://twitter.com/intent/tweet?text='+title+'&url='+url, facebook:'https://www.facebook.com/sharer/sharer.php?u='+url,
+      linkedin:'https://www.linkedin.com/sharing/share-offsite/?url='+url, email:'mailto:?subject='+title+'&body='+url };
+    if(net==='email'){ location.href=map.email; } else { window.open(map[net],'_blank','noopener'); }
+    return false;
+  }
+  function eastCopy(el){ var url=location.href;
+    if(navigator.clipboard){ navigator.clipboard.writeText(url).then(function(){ el.textContent='Copied ✓'; }); }
+    else { window.prompt('Copy this link:',url); } }
+
+  window.addEventListener('DOMContentLoaded', function(){
+    buildShareRows(); filterPubs(); filterEv();
+    show((location.hash||'#home').slice(1));
+  });
+</script>
+</body>
+</html>

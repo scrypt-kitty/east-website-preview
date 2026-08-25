@@ -1,0 +1,74 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>EAST — Preview (under development)</title>
+<meta name="description" content="Work-in-progress preview of the EAST (Environmental Accountability &amp; Strategy Team) website. Static mockups only.">
+<meta name="robots" content="noindex, nofollow">
+<style>
+:root{
+  --navy:#16264a; --navy-2:#22355f; --green:#2e7d32; --gold:#e8a317; --river:#3e7cb1;
+  --cream:#f4f1e8; --bg:#ffffff; --fg:#1a1f2b; --muted:#5c6572; --line:#e4e2d8; --card:#ffffff;
+  --serif:"Iowan Old Style","Palatino Linotype",Palatino,"Book Antiqua",Georgia,"Times New Roman",serif;
+  --sans:system-ui,-apple-system,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+  --mono:ui-monospace,"SFMono-Regular",Menlo,Consolas,monospace;
+}
+@media (prefers-color-scheme:dark){
+  :root{ --bg:#0f141f; --fg:#e9ecf2; --muted:#9aa3b2; --line:#26304a; --card:#151b28; --cream:#131a26; --navy:#0e1b38; }
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--fg);font-family:var(--sans);line-height:1.6;font-size:17px}
+.wrap{max-width:820px;margin:0 auto;padding:0 24px}
+a{color:var(--river)}
+h1,h2{font-family:var(--serif);font-weight:600;line-height:1.2;letter-spacing:-.01em}
+.wipbar{background:var(--gold);color:#1a1200;text-align:center;font-family:var(--mono);font-size:.8rem;letter-spacing:.5px;padding:7px 12px}
+.wipbar b{text-transform:uppercase}
+header{background:var(--navy);color:#fff;padding:44px 0 40px;text-align:center}
+header img{width:132px;height:auto;margin-bottom:14px}
+header h1{margin:0;color:#fff;font-size:2.1rem}
+header .tag{color:#c9d3e6;font-size:1.02rem;margin-top:6px}
+main{padding:38px 0 60px}
+.note{background:var(--cream);border:1px solid var(--line);border-radius:10px;padding:16px 18px;color:var(--muted);font-size:.95rem;margin:0 0 30px}
+.cards{display:grid;gap:18px;grid-template-columns:1fr}
+@media(min-width:640px){.cards{grid-template-columns:1fr 1fr}}
+.card{display:block;background:var(--card);border:1px solid var(--line);border-radius:12px;padding:22px;text-decoration:none;color:inherit;transition:border-color .15s,transform .15s}
+.card:hover{border-color:var(--river);transform:translateY(-2px)}
+.card h2{margin:0 0 6px;font-size:1.25rem;color:var(--navy)}
+@media (prefers-color-scheme:dark){.card h2{color:#c9d3e6}}
+.card p{margin:0;color:var(--muted);font-size:.95rem}
+.card .path{font-family:var(--mono);font-size:.8rem;color:var(--river);margin-top:12px}
+footer{border-top:1px solid var(--line);padding:22px 0;color:var(--muted);font-size:.85rem;font-family:var(--mono);text-align:center}
+</style>
+</head>
+<body>
+<div class="wipbar"><b>Under development</b> · static preview only — not the live site</div>
+<header>
+  <div class="wrap">
+    <img src="images/branding/east-logo-1-centered-text.png" alt="EAST logo">
+    <h1>Environmental Accountability &amp; Strategy Team</h1>
+    <div class="tag">Website preview</div>
+  </div>
+</header>
+<main>
+  <div class="wrap">
+    <p class="note">These are early static mockups shared for review. Content, structure, and design are still in progress and subject to change. Nothing here is final or authoritative.</p>
+    <div class="cards">
+      <a class="card" href="public/">
+        <h2>Public site</h2>
+        <p>The public-facing campaign site — "Stop Project Raspberry."</p>
+        <div class="path">/public/</div>
+      </a>
+      <a class="card" href="institute/">
+        <h2>Institute redesign</h2>
+        <p>Alternate research-institute direction for the same content.</p>
+        <div class="path">/institute/</div>
+      </a>
+    </div>
+  </div>
+</main>
+<footer>
+  <div class="wrap">EAST — preview build · scrypt-kitty</div>
+</footer>
+</body>
+</html>

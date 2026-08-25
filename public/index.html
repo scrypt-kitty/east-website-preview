@@ -1,0 +1,693 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>EAST — Stop Project Raspberry (Demo)</title>
+<meta name="description" content="Environmental stewardship, transparency, and accountability in the Roanoke Valley, Botetourt County, and neighboring regions of Virginia.">
+<style>
+:root{
+  --bg:#faf9f7; --fg:#17151a; --muted:#6b6560; --line:#e2ddd6;
+  --card:#ffffff; --accent:#c1121f; --accent-ink:#fff; --link:#8a0d17;
+  --mono:ui-monospace,"SFMono-Regular",Menlo,Consolas,monospace;
+  --sans:system-ui,-apple-system,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+  --max:1200px;            /* CHANGE (item 8): wider — was 1000px */
+}
+@media (prefers-color-scheme:dark){
+  :root{ --bg:#131214; --fg:#eceae7; --muted:#a29c95; --line:#2c2a2e;
+         --card:#1b1a1d; --accent:#e5383b; --link:#ff8a8f; }
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--bg);color:var(--fg);font-family:var(--sans);line-height:1.6;font-size:17px}
+.wrap{max-width:var(--max);margin:0 auto;padding:0 20px}
+a{color:var(--link);cursor:pointer}
+h1{font-size:2rem;line-height:1.15;margin:.2em 0 .4em}
+h2{font-size:1.4rem;margin:1.6em 0 .5em;border-bottom:2px solid var(--line);padding-bottom:.2em}
+h3{font-size:1.1rem;margin:1.2em 0 .3em}
+.lede{font-size:1.15rem;color:var(--fg)}
+.muted{color:var(--muted)}
+.mono,.meta,.crumb{font-family:var(--mono);font-size:.85rem}
+.skip{position:absolute;left:-999px}.skip:focus{left:8px;top:8px;background:var(--accent);color:#fff;padding:8px;z-index:10}
+
+/* Demo banner */
+.demobar{background:var(--accent);color:#fff;text-align:center;font-family:var(--mono);font-size:.78rem;letter-spacing:.5px;padding:5px 10px}
+.demobar b{text-transform:uppercase}
+
+/* Header / nav */
+header.site,footer.site{background:var(--card);border-bottom:1px solid var(--line)}
+footer.site{border-top:1px solid var(--line);border-bottom:0;margin-top:3rem}
+.bar{display:flex;align-items:center;gap:16px;flex-wrap:wrap;padding-top:12px;padding-bottom:12px}
+.brand{display:flex;flex-direction:row;align-items:center;gap:12px;text-decoration:none;color:var(--fg);line-height:1}
+.brand .logo{height:46px;width:46px;border-radius:50%;flex:none;object-fit:cover;box-shadow:0 0 0 2px var(--line)}
+.brandtext{display:flex;flex-direction:column}
+.hero-logo{display:block;margin:8px auto 0;width:min(72%,360px);height:auto}
+.brand .mark{font-family:var(--mono);font-weight:800;font-size:2.1rem;letter-spacing:3px;color:var(--accent)} /* CHANGE (item 2): bigger */
+.brand .sub{font-size:.72rem;letter-spacing:.6px;text-transform:uppercase;color:var(--fg);font-weight:600;max-width:30ch;line-height:1.3;margin-top:5px} /* CHANGE (item 2): darker + bolder (was muted grey) */
+.nav{display:flex;gap:2px;flex-wrap:wrap;margin-left:auto;order:3;width:100%}
+.nav a{padding:6px 10px;text-decoration:none;color:var(--fg);border-radius:4px;font-size:.95rem}
+.nav a:hover{background:var(--line)}
+.nav a.on{color:var(--accent);font-weight:700}
+.give{margin-left:auto;padding:8px 16px;border-radius:8px;background:var(--accent);color:#fff;font-weight:700;text-decoration:none;font-size:.92rem;white-space:nowrap} /* CHANGE (item 5): prominent, always-visible Donate */
+.give:hover{opacity:.9}
+.menu-btn{display:none}
+.search-mini{margin-left:10px}
+.search-mini input{font:inherit;padding:6px 10px;border:1px solid var(--line);border-radius:6px;background:var(--bg);color:var(--fg)}
+@media (max-width:820px){
+  .menu-btn{display:block;margin-left:10px;background:none;border:1px solid var(--line);color:var(--fg);font-size:1.2rem;border-radius:6px;padding:4px 10px;cursor:pointer}
+  .nav{display:none}.nav-open .nav{display:flex;flex-direction:column}
+  .search-mini{order:4;width:100%;margin-left:0}
+}
+
+/* Views */
+.view{display:none;animation:fade .2s ease}
+.view.active{display:block}
+@keyframes fade{from{opacity:0;transform:translateY(4px)}to{opacity:1;transform:none}}
+@media (prefers-reduced-motion:reduce){.view{animation:none}}
+
+/* Hero */
+.hero{margin:24px 0}
+.hero-fig{margin:0}
+.hero-art{display:block;width:100%;height:auto;max-height:420px;border-radius:12px;background:var(--line)}
+.hero-fig figcaption{font-family:var(--mono);font-size:.72rem;color:var(--muted);margin-top:6px}
+.mission-summary{margin:20px 0 8px;max-width:70ch} /* CHANGE (item 9): short mission right under the picture */
+ol.steps{margin:.4em 0;padding-left:20px}ol.steps li{margin:8px 0}
+.hero-copy{margin-top:14px}
+.hero-copy h1{font-size:2.4rem}
+.cta-row{display:flex;gap:10px;flex-wrap:wrap;margin-top:16px}
+.btn{display:inline-block;padding:11px 18px;border-radius:8px;text-decoration:none;font-weight:600;border:2px solid var(--accent);color:var(--accent);background:transparent;cursor:pointer;font:inherit}
+.btn.primary{background:var(--accent);color:var(--accent-ink)}
+.btn.ghost{border-color:var(--line);color:var(--fg)}
+.btn:hover{opacity:.9}
+
+/* Cards / layout */
+.card{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:18px 20px;margin:16px 0}
+.grid-2{display:grid;grid-template-columns:1fr 1fr;gap:28px;margin-top:8px}
+@media (max-width:700px){.grid-2{grid-template-columns:1fr;gap:8px}}
+.principles{list-style:none;padding:0;margin:.5em 0;display:grid;gap:8px}
+.principles li{padding-left:14px;border-left:3px solid var(--accent)}
+.pname{font-family:var(--mono);font-size:.72rem;text-transform:uppercase;letter-spacing:.6px;color:var(--muted);display:block} /* CHANGE (item 7): principle labels read as labels, not bold "links" */
+
+/* Lists */
+.topic-list,.post-list{list-style:none;padding:0}
+.topic-list li,.post-list li{padding:12px 0;border-bottom:1px solid var(--line)}
+.topic-list.big li a,.post-list.big li a{font-size:1.2rem;font-weight:700}
+.tier1{font-size:1.1rem}
+
+/* Tiers */
+.tier{margin:18px 0;padding:14px 16px;border-radius:10px;border:1px solid var(--line)}
+.tier-tag{font-family:var(--mono);font-size:.7rem;text-transform:uppercase;letter-spacing:1px;color:var(--muted)}
+.tier-1{border-left:4px solid var(--accent);background:var(--card)}
+.tier-2{background:var(--card)}
+.tier-3 summary{cursor:pointer;font-weight:700}
+.facts{margin:.4em 0}
+.sources{font-family:var(--mono);font-size:.85rem}
+
+/* Debunk / myths */
+.debunk .claim{font-style:italic;color:var(--muted)}
+.debunk .rebuttal{font-size:1.05rem}
+.myths dt{font-weight:700;font-style:italic;margin-top:12px}
+.myths dd{margin:0 0 8px}
+
+/* Table of contents + callout */
+.toc{border:1px solid var(--line);border-radius:10px;padding:12px 16px;margin:18px 0;background:var(--card)}
+.toc .toc-label{font-family:var(--mono);font-size:.72rem;text-transform:uppercase;letter-spacing:1px;color:var(--muted);margin:0 0 8px}
+.toc ul{list-style:none;padding:0;margin:0;display:flex;flex-wrap:wrap;gap:6px 22px}
+.toc a{text-decoration:none;font-weight:600}.toc a:hover{text-decoration:underline}
+.callout{border-left:4px solid var(--accent);background:var(--card);border-radius:0 8px 8px 0;padding:12px 16px;margin:16px 0;font-size:.98rem}
+
+/* FAQ */
+.faq details{border:1px solid var(--line);border-radius:8px;padding:10px 14px;margin:8px 0;background:var(--card)}
+.faq summary{cursor:pointer;font-weight:600}
+
+/* Actions / wins / printables */
+.actions{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+@media (max-width:700px){.actions{grid-template-columns:1fr}}
+.canned textarea{width:100%;font-family:var(--mono);font-size:.85rem;border:1px solid var(--line);border-radius:8px;padding:10px;background:var(--bg);color:var(--fg)}
+.wins{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+@media (max-width:700px){.wins{grid-template-columns:1fr}}
+.print-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+@media (max-width:700px){.print-grid{grid-template-columns:1fr}}
+.ptype{font-family:var(--mono);font-size:.68rem;text-transform:uppercase;letter-spacing:.6px;color:var(--muted)}
+
+/* Donate */
+.give-cta{background:var(--card);border:2px solid var(--accent);border-radius:12px;padding:22px;text-align:center;margin:16px 0}
+.give-cta .btn{margin-top:8px}
+
+/* Documents / search */
+.search-big{display:flex;gap:8px;margin:16px 0}
+.search-big input{flex:1;font:inherit;padding:12px 14px;border:1px solid var(--line);border-radius:8px;background:var(--card);color:var(--fg)}
+.search-big button{padding:12px 20px;border:0;border-radius:8px;background:var(--accent);color:#fff;font-weight:700;cursor:pointer}
+table.docs{width:100%;border-collapse:collapse;font-size:.95rem}
+table.docs th,table.docs td{text-align:left;padding:10px 8px;border-bottom:1px solid var(--line);vertical-align:top}
+table.docs th{font-family:var(--mono);font-size:.75rem;text-transform:uppercase;color:var(--muted)}
+
+/* Bits */
+.tag{font-family:var(--mono);font-size:.7rem;background:var(--line);color:var(--fg);padding:1px 7px;border-radius:20px;margin-left:6px}
+.share{display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin:28px 0;padding-top:16px;border-top:1px dashed var(--line)}
+.share-label{font-family:var(--mono);font-size:.8rem;color:var(--muted)}
+.share a,.share .share-btn{font-family:var(--mono);font-size:.8rem;text-decoration:none;border:1px solid var(--line);padding:4px 10px;border-radius:20px;color:var(--fg);background:transparent;cursor:pointer;line-height:1.4}
+.share a:hover,.share .share-btn:hover{border-color:var(--accent);color:var(--accent)}
+.crumb a{text-decoration:none}
+.contact .email{font-size:1.4rem;font-family:var(--mono)}
+.captcha{display:flex;gap:10px;align-items:flex-end;flex-wrap:wrap;margin-top:10px}
+.captcha input{width:90px;font:inherit;padding:8px 10px;border:1px solid var(--line);border-radius:8px;background:var(--bg);color:var(--fg)}
+.captcha button{padding:10px 18px;border:0;border-radius:8px;background:var(--accent);color:#fff;font-weight:700;cursor:pointer}
+.coming-soon{text-align:center;padding:40px 20px}
+.foot{padding:20px 0}.foot .muted{font-size:.85rem}
+
+/* People / key figures */
+.people{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin:12px 0}
+@media (max-width:760px){.people{grid-template-columns:1fr}}
+.person{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:14px 16px}
+.person h3{margin:.1em 0}
+.person .role{font-family:var(--mono);font-size:.7rem;text-transform:uppercase;letter-spacing:.5px;color:var(--muted);display:block}
+.person .org{font-weight:600;font-size:.9rem}
+.person p{font-size:.93rem;margin:.5em 0}
+.person .contact{font-family:var(--mono);font-size:.78rem;color:var(--muted);border-top:1px dashed var(--line);padding-top:8px;margin-top:8px}
+.person .contact a{text-decoration:none}
+.grouplabel{font-family:var(--mono);font-size:.72rem;text-transform:uppercase;letter-spacing:1px;color:var(--accent);margin:24px 0 4px}
+
+/* Blog article + verified-claims table */
+.post .article-body{font-size:1.05rem;max-width:70ch}
+.post .article-body p{margin:1em 0}
+.fig-stub{border:1px dashed var(--line);border-radius:10px;background:var(--card);padding:16px;text-align:center;color:var(--muted);font-size:.85rem;margin:16px 0}
+.fig-stub .cap{font-family:var(--mono);font-size:.75rem;margin-top:8px}
+.verify-box{border:1px solid var(--line);border-radius:12px;background:var(--card);padding:16px 18px;margin:22px 0}
+.verify-box .vlabel{font-family:var(--mono);font-size:.72rem;text-transform:uppercase;letter-spacing:1px;color:var(--accent)}
+table.claimcheck{width:100%;border-collapse:collapse;font-size:.9rem;margin:10px 0}
+table.claimcheck th,table.claimcheck td{text-align:left;padding:9px 8px;border-bottom:1px solid var(--line);vertical-align:top}
+table.claimcheck th{font-family:var(--mono);font-size:.7rem;text-transform:uppercase;color:var(--muted)}
+.srcq{font-family:var(--mono);font-size:.8rem;color:var(--muted)}
+.vbadge{font-family:var(--mono);font-size:.66rem;text-transform:uppercase;letter-spacing:.4px;padding:2px 8px;border-radius:20px;white-space:nowrap;border:1px solid}
+.vbadge.ok{color:#1a7f4b;border-color:#1a7f4b}
+.vbadge.corrob{color:#2b5d8a;border-color:#2b5d8a}
+.vbadge.flag{color:#b06a00;border-color:#b06a00}
+@media (prefers-color-scheme:dark){
+  .vbadge.ok{color:#4cc38a;border-color:#4cc38a}
+  .vbadge.corrob{color:#79b0e0;border-color:#79b0e0}
+  .vbadge.flag{color:#e0a955;border-color:#e0a955}
+}
+</style>
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+<div class="demobar"><b>Demo</b> · static mock for feedback — no live data, forms are illustrative</div>
+
+<header class="site">
+  <div class="wrap bar">
+    <a class="brand" data-view="home">
+      <img class="logo" src="../images/branding/east-logo-1-centered-text.png" alt="EAST logo">
+      <span class="brandtext">
+        <span class="mark">EAST</span>
+        <span class="sub">Environmental Accountability &amp; Strategy Team</span>
+      </span>
+    </a>
+    <button class="menu-btn" aria-label="Menu" onclick="document.body.classList.toggle('nav-open')">☰</button>
+    <a class="give" data-view="donate">♥ Donate</a>
+    <form class="search-mini" role="search" onsubmit="headerSearch(event)">
+      <input id="mini-q" name="q" type="search" placeholder="Search documents…" aria-label="Search">
+    </form>
+    <nav class="nav" id="nav">
+      <a data-view="home">Home</a>
+      <a data-view="topics">Topics</a>
+      <a data-view="debunking">Debunking</a>
+      <a data-view="faq">FAQ</a>
+      <a data-view="action">Take Action</a>
+      <a data-view="politicians">Officials</a>
+      <a data-view="wins">Wins</a>
+      <a data-view="history">History</a>
+      <a data-view="blog">News</a>
+      <a data-view="library">Documents</a>
+      <a data-view="contact">Contact</a>
+    </nav>
+  </div>
+</header>
+
+<main id="main" class="wrap">
+
+  <!-- HOME -->
+  <section class="view active" id="v-home">
+    <div class="hero">
+      <figure class="hero-fig">
+        <img class="hero-logo" src="../images/branding/east-logo-1-centered-text.png" alt="Environmental Accountability & Strategy Team (EAST) — sunrise over mountains and a river, with the EAST wordmark">
+      </figure>
+
+      <!-- CHANGE (items 7 + 9): short, plain mission right below the picture -->
+      <p class="lede mission-summary">EAST is a community coalition working for environmental stewardship, transparency, and accountability in the Roanoke Valley, Botetourt County, and neighboring regions of Virginia — through research, plain-language facts, and lawful advocacy.</p>
+
+      <div class="hero-copy">
+        <h1>A secret Google datacenter is coming to Botetourt County.</h1>
+        <p class="lede">The public heard Google's version first. Here's the sourced, plain-language counter-record — and what you can do about it.</p>
+        <!-- CHANGE (item 10): Understand the Issue now sits left of Read the Documents -->
+        <div class="cta-row">
+          <a class="btn primary" data-view="action">Take Action</a>
+          <a class="btn" data-view="topics">Understand the Issue</a>
+          <a class="btn ghost" data-view="library">Read the Documents</a>
+        </div>
+      </div>
+    </div>
+
+    <section class="grid-2">
+      <div>
+        <h2>Start here</h2>
+        <ul class="topic-list">
+          <li><a data-view="topic-raspberry">What is Project Raspberry?</a><br><span class="muted">A Google-linked hyperscale datacenter proposed for Greenfield in Botetourt County — advanced under a shell entity and shrouded in NDAs.</span></li>
+          <li><a data-view="topic-water">Water &amp; power: what a hyperscale datacenter actually consumes</a><br><span class="muted">These facilities draw enormous amounts of water and electricity — the local questions are where it comes from and who pays.</span></li>
+        </ul>
+      </div>
+      <div>
+        <h2>Latest</h2>
+        <ul class="post-list">
+          <li><a data-view="post-water">Botetourt, Roanoke region deserve real water numbers for Google's Project Raspberry</a><div class="meta">2026-07-09 · Environmental Accountability &amp; Strategy Team <span class="tag">verified</span></div><p class="muted">The public heard "up to 8 MGD." FOIA'd planning records point to 10–11 MGD. Every claim below traces to a primary source.</p></li>
+          <li><a data-view="post-welcome">Why we built this site</a><div class="meta">2026-07-15 · EAST Coalition</div><p class="muted">The public heard Google's framing first. This is the counter-source — sourced, plain-language, and built to be shared.</p></li>
+          <li><a data-view="post-openhouse">What the 'open house' actually disclosed</a><div class="meta">2026-07-12 · EAST Coalition</div><p class="muted">A one-way Q&amp;A that functioned as PR. Here's what we learned — and what they still won't say.</p></li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- CHANGE (item 7): full mission + principles moved lower; labels no longer bold -->
+    <section class="mission card">
+      <h2>Our mission &amp; principles</h2>
+      <p>EAST works for environmental stewardship, transparency, accountability, informed public participation, and responsible and collaborative decision-making. We research the record, review the technical and regulatory details, educate the public, build coalitions, and engage in lawful advocacy on the issues that affect our communities and our environment.</p>
+      <ul class="principles">
+        <li><span class="pname">Accuracy</span> What we say is grounded in documents, facts, and analysis we clearly label as our own.</li>
+        <li><span class="pname">Independence</span> EAST is an instrument of power through knowledge — never an instrument for another politician's or organization's agenda. We set our own priorities.</li>
+        <li><span class="pname">Transparency</span> How contributed funds — and anything produced with them — are used should be clear to members and supporters.</li>
+        <li><span class="pname">Public service</span> EAST's work is undertaken for community benefit, not private gain.</li>
+        <li><span class="pname">Advocacy</span> EAST petitions, comments, educates, investigates, organizes, and advocates.</li>
+      </ul>
+    </section>
+
+    <div class="share" data-share="Stop Project Raspberry — EAST" aria-label="Share"></div>
+  </section>
+
+  <!-- TOPICS -->
+  <section class="view" id="v-topics">
+    <h1>Topics</h1>
+    <p class="lede">Every topic layers three levels: a one-line takeaway, a short summary, and the full sourced detail.</p>
+    <p class="callout"><strong>Note:</strong> “Project Raspberry” is the developers' code name for the proposed Google-linked (“Helios”) hyperscale datacenter in Greenfield, Botetourt County — not a name EAST chose, and not the project's public identity.</p>
+    <ul class="topic-list big">
+      <li><a data-view="topic-raspberry">What is Project Raspberry?</a><p class="tier1">A Google-linked hyperscale datacenter proposed for Greenfield in Botetourt County — advanced under a shell entity and shrouded in NDAs.</p></li>
+      <li><a data-view="topic-water">Water &amp; power: what a hyperscale datacenter actually consumes</a><p class="tier1">These facilities draw enormous amounts of water and electricity — the local questions are where it comes from and who pays.</p></li>
+    </ul>
+  </section>
+
+  <!-- TOPIC: raspberry -->
+  <section class="view" id="v-topic-raspberry">
+    <article class="topic">
+      <p class="crumb"><a data-view="topics">← Topics</a></p>
+      <h1>What is Project Raspberry?</h1>
+      <div class="tier tier-1"><span class="tier-tag">The short version</span><p class="tier1">A Google-linked hyperscale datacenter proposed for Greenfield in Botetourt County — advanced under a shell entity and shrouded in NDAs.</p></div>
+      <div class="tier tier-2"><span class="tier-tag">In a nutshell</span>
+        <p>“Project Raspberry” is the developers' code name — not the project's public identity — for a large data-center development in Greenfield, Botetourt County. It is associated with Google via the shell entity “Helios.” Public officials were reportedly asked to sign non-disclosure agreements before the community was informed.</p>
+        <ul class="facts"><li>Location: Greenfield, Botetourt County, VA.</li><li>Scale: hyperscale (industrial) data center campus.</li><li>Corporate structure: advanced under a shell entity (“Helios”) tied to Google.</li><li>Secrecy: NDAs reportedly signed by local officials before public disclosure.</li></ul></div>
+      <details class="tier tier-3"><summary>Full detail &amp; sources</summary><p>This is placeholder detail. In the real page, every sentence here links to a primary source in the document library.</p><h3>Sources</h3><ul class="sources"><li><a data-view="library">Rezoning application (placeholder)</a></li><li><a data-view="library">Meeting minutes (placeholder)</a></li></ul></details>
+      <h2>Latest from this topic</h2>
+      <ul class="post-list"><li><a data-view="post-openhouse">What the 'open house' actually disclosed</a><div class="meta">2026-07-12 · EAST Coalition</div><p class="muted">A one-way Q&amp;A that functioned as PR.</p></li></ul>
+      <div class="share" data-share="What is Project Raspberry? — EAST" aria-label="Share"></div>
+    </article>
+  </section>
+
+  <!-- TOPIC: water -->
+  <section class="view" id="v-topic-water">
+    <article class="topic">
+      <p class="crumb"><a data-view="topics">← Topics</a></p>
+      <h1>Water &amp; power: what a hyperscale datacenter actually consumes</h1>
+      <div class="tier tier-1"><span class="tier-tag">The short version</span><p class="tier1">These facilities draw enormous amounts of water and electricity — the local questions are where it comes from and who pays.</p></div>
+      <div class="tier tier-2"><span class="tier-tag">In a nutshell</span><p>Hyperscale data centers can consume millions of gallons of water and hundreds of megawatts of power. For a rural county, the pressure lands on local watersheds, the grid, and ratepayers.</p><ul class="facts"><li>Cooling can require large, sustained water withdrawals.</li><li>Power demand can rival that of a small city.</li><li>Infrastructure upgrades are often subsidized by the public.</li></ul></div>
+      <details class="tier tier-3"><summary>Full detail &amp; sources</summary><p>Placeholder detail — full sourced analysis goes here, layperson-first.</p><h3>Sources</h3><ul class="sources"><li><a data-view="library">Utility filings (placeholder)</a></li></ul></details>
+      <div class="share" data-share="Water &amp; power — EAST" aria-label="Share"></div>
+    </article>
+  </section>
+
+  <!-- DEBUNKING -->
+  <section class="view" id="v-debunking">
+    <h1>Debunking</h1>
+    <p class="lede">Claims from the open house and PR — with sourced rebuttals.</p>
+    <div class="debunk card"><p class="claim">“This project will bring lots of local jobs.”</p><p class="rebuttal">Hyperscale data centers are highly automated. Construction jobs are temporary; permanent on-site staff is typically a few dozen — not the number implied at the open house.</p><p class="sources muted">Source: Comparable facility staffing (placeholder)</p></div>
+    <div class="debunk card"><p class="claim">“There's nothing secret here — it's a normal development.”</p><p class="rebuttal">Normal developments don't require public officials to sign NDAs before residents are told the project exists. The secrecy is the story.</p><p class="sources muted">Source: NDA references (placeholder)</p></div>
+    <h2>Quick myths</h2>
+    <dl class="myths"><dt>“Data centers are clean and quiet.”</dt><dd>Industrial cooling, backup diesel generators, and 24/7 operation carry noise, air, and water impacts. Placeholder rebuttal.</dd><dt>“Opposing this means you're anti-technology.”</dt><dd>Wanting transparency and a fair deal for the county isn't anti-technology. Placeholder rebuttal.</dd></dl>
+  </section>
+
+  <!-- FAQ -->
+  <section class="view" id="v-faq">
+    <h1>Frequently Asked Questions</h1>
+    <nav class="toc" aria-label="FAQ sections"><p class="toc-label">Jump to</p><ul>
+      <li><a onclick="scrollTo2('faq-general')">General <span class="muted">(3)</span></a></li>
+      <li><a onclick="scrollTo2('faq-east')">About EAST <span class="muted">(3)</span></a></li>
+      <li><a onclick="scrollTo2('faq-raspberry')">About Project Raspberry <span class="muted">(7)</span></a></li></ul></nav>
+    <h2 id="faq-general">General</h2>
+    <div class="faq">
+      <details><summary>What is a datacenter, and why does this one matter here?</summary><p>A data center is a warehouse of computers that runs internet services. This one matters because of its scale, its water and power demands, and how it arrived — in secret. Placeholder answer.</p></details>
+      <details><summary>What is an NDA, and why did officials sign one?</summary><p>A non-disclosure agreement is a contract to keep information secret. Placeholder answer.</p></details>
+      <details><summary>Who are the officials involved, and what did they know and when?</summary><p>Placeholder — the real answer names names and links to the record.</p></details>
+    </div>
+    <h2 id="faq-east">About EAST <span class="muted">(the coalition)</span></h2>
+    <div class="faq">
+      <details><summary>Who is EAST?</summary><p>EAST is the community coalition behind this site. Placeholder.</p></details>
+      <details><summary>Is EAST an instrument of another organization?</summary><p>No. Per our core principle of Independence, EAST sets its own priorities. Placeholder.</p></details>
+      <details><summary>How is EAST funded and governed?</summary><p>Transparency is a core principle. Placeholder.</p></details>
+    </div>
+    <h2 id="faq-raspberry">About Project Raspberry <span class="muted">(the development)</span></h2>
+    <p class="callout"><strong>Note:</strong> “Project Raspberry” is the developers' code name for the proposed Google-linked (“Helios”) hyperscale datacenter in Greenfield, Botetourt County.</p>
+    <div class="faq">
+      <details><summary>What exactly is being built, and where?</summary><p>A hyperscale data-center campus in Greenfield, Botetourt County. Placeholder.</p></details>
+      <details><summary>Why Botetourt? Why here?</summary><p>Placeholder — cheap land, proximity to power/fiber, and a development-friendly local government.</p></details>
+      <details><summary>What is Greenfield?</summary><p>A tract in Botetourt County steered toward economic development. Placeholder.</p></details>
+      <details><summary>What's the historical significance of Greenfield?</summary><p>Associated with the 18th-century Preston family plantation. Placeholder — needs sourcing.</p></details>
+      <details><summary>What is Helios's relationship to Google, and why a shell company?</summary><p>Helios is the shell entity used to advance the project quietly. Placeholder.</p></details>
+      <details><summary>What did the open house actually disclose vs. withhold?</summary><p>It functioned as one-way PR. Placeholder.</p></details>
+      <details><summary>What happened in comparable fights (e.g., Warrington)?</summary><p>Placeholder.</p></details>
+    </div>
+    <div class="share" data-share="Datacenter FAQ — EAST" aria-label="Share"></div>
+  </section>
+
+  <!-- TAKE ACTION -->
+  <section class="view" id="v-action">
+    <h1>Take Action</h1>
+    <p class="lede">Awareness isn't enough — here's how to make your voice heard, and how to help. <span class="muted">(Looking to give money? That's <a data-view="donate">Donate</a>.)</span></p>
+    <nav class="toc" aria-label="On this page"><p class="toc-label">On this page</p><ul>
+      <li><a onclick="scrollTo2('make-comments')">How &amp; where to submit a comment</a></li>
+      <li><a onclick="scrollTo2('voice-heard')">How to make your voice heard</a></li>
+      <li><a onclick="scrollTo2('how-to-help')">How to help</a></li>
+      <li><a onclick="scrollTo2('printables')">Printables</a></li>
+    </ul></nav>
+    <div class="card">
+      <h2 id="make-comments">How &amp; where to submit a comment</h2>
+      <p class="muted">Public comment is the record. Three steps:</p>
+      <ol class="steps">
+        <li>Find the open comment window — a Virginia DEQ permit comment period, or a Botetourt County Board of Supervisors agenda item. (We link the current one here when one is open.)</li>
+        <li>Write two to four sentences in your own words using the talking points below. A personal reason — why this matters to you — is the most effective part.</li>
+        <li>Submit before the deadline: through the DEQ public-comment portal, by email to the listed contact, or in person / by mail at the meeting.</li>
+      </ol>
+      <h3>Talking points (adapt them)</h3>
+      <div class="canned"><textarea rows="6" readonly>I am a resident of Botetourt County and I oppose the proposed data-center development known as Project Raspberry. I am concerned about [water use / power demand / lack of transparency / NDAs signed by officials]. I ask that [decision-maker] [specific ask]. [Add your own reason — one personal sentence is the most effective part.]</textarea></div>
+      <div class="share" data-share="Submit a comment on Project Raspberry — EAST" aria-label="Share"></div>
+    </div>
+    <h2 id="voice-heard">How to make your voice heard</h2>
+    <div class="actions">
+      <div class="card"><h3>Submit a public comment</h3><p>Public comments to the Virginia DEQ and the Board of Supervisors become part of the official record. Follow the steps above and use the talking points.</p></div>
+      <div class="card"><h3>Speak at a hearing</h3><p>Board of Supervisors and permit hearings are open to the public. Sign up to speak — showing up in person carries weight. Dates and sign-up details posted here.</p></div>
+    </div>
+    <h2 id="how-to-help">How to help</h2>
+    <div class="actions">
+      <div class="card"><h3>Run a neighborhood workshop</h3><p>A step-by-step guide to hosting a 45-minute info session with your neighbors. Placeholder.</p></div>
+      <div class="card"><h3>Print &amp; share materials</h3><p>Grab print-ready flyers and fact sheets from <a onclick="scrollTo2('printables')">Printables</a> below, and share the site with neighbors.</p></div>
+      <div class="card"><h3>Support the work</h3><p>Donations fund research, records requests, and printing. See <a data-view="donate">Donate</a> for how — and where every dollar goes.</p></div>
+    </div>
+    <h2 id="printables">Printables</h2>
+    <p class="muted">Short, print-ready transparency pieces — hand them out, post them, mail them.
+      Also searchable in <a data-view="library">Documents</a>. <span class="muted">Files are placeholders.</span></p>
+    <div class="print-grid">
+      <div class="card"><span class="ptype">Fact sheet · 1 page</span><h3>Project Raspberry — the basics</h3><p class="muted">What it is, where, who's behind it, and why the secrecy matters. Print-ready PDF.</p><p><a>Download PDF (placeholder)</a></p></div>
+      <div class="card"><span class="ptype">Press release</span><h3>EAST responds to the “open house”</h3><p class="muted">Our statement on what was disclosed vs. withheld. Placeholder.</p><p><a>Download PDF (placeholder)</a></p></div>
+      <div class="card"><span class="ptype">Fact sheet · 1 page</span><h3>Water &amp; power, in plain numbers</h3><p class="muted">What a hyperscale datacenter draws — and who pays. Placeholder.</p><p><a>Download PDF (placeholder)</a></p></div>
+      <div class="card"><span class="ptype">FOIA'd material</span><h3>Records we've obtained</h3><p class="muted">Council packets and correspondence released under public-records law. Placeholder — also searchable in <a data-view="library">Documents</a>.</p><p><a>Download PDF (placeholder)</a></p></div>
+      <div class="card"><span class="ptype">Template</span><h3>FOIA request — how to file one</h3><p class="muted">Fill-in letter to request records yourself. Placeholder.</p><p><a>Download PDF (placeholder)</a></p></div>
+      <div class="card"><span class="ptype">Flyer</span><h3>Print &amp; post — meeting reminder</h3><p class="muted">Half-page flyer for the next Board of Supervisors meeting. Placeholder.</p><p><a>Download PDF (placeholder)</a></p></div>
+    </div>
+    <div class="share" data-share="Take action against Project Raspberry — EAST" aria-label="Share"></div>
+  </section>
+
+  <!-- OFFICIALS -->
+  <section class="view" id="v-politicians">
+    <h1>Who represents us</h1>
+    <p class="lede">The officials whose decisions shape this fight — city, county, and state. For local rezoning and land use, start with the Botetourt County Board of Supervisors.</p>
+    <p class="callout"><strong>Note:</strong> the offices below are current and public, but names and contacts are placeholders until verified against official government pages. We list only public office channels — never personal contact details.</p>
+    <nav class="toc" aria-label="Jurisdictions"><p class="toc-label">Jump to</p><ul>
+      <li><a onclick="scrollTo2('j-roanoke-city')">Roanoke (City)</a></li>
+      <li><a onclick="scrollTo2('j-roanoke-county')">Roanoke County</a></li>
+      <li><a onclick="scrollTo2('j-botetourt')">Botetourt County</a></li>
+      <li><a onclick="scrollTo2('j-troutville')">Troutville (Town)</a></li>
+      <li><a onclick="scrollTo2('j-virginia')">Virginia (Commonwealth)</a></li>
+      <li><a onclick="scrollTo2('key-figures')">Key figures in this fight</a></li></ul></nav>
+    <h2 id="j-roanoke-city">Roanoke (City)</h2>
+    <table class="docs"><thead><tr><th>Office</th><th>Who</th><th>Public contact</th></tr></thead><tbody><tr><td>Mayor</td><td>— (verify)</td><td>roanokeva.gov</td></tr><tr><td>City Council</td><td>— (verify)</td><td>roanokeva.gov</td></tr></tbody></table>
+    <h2 id="j-roanoke-county">Roanoke County</h2>
+    <table class="docs"><thead><tr><th>Office</th><th>Who</th><th>Public contact</th></tr></thead><tbody><tr><td>Board of Supervisors (by district)</td><td>— (verify)</td><td>roanokecountyva.gov</td></tr></tbody></table>
+    <h2 id="j-botetourt">Botetourt County</h2>
+    <table class="docs"><thead><tr><th>Office</th><th>Who</th><th>Public contact</th></tr></thead><tbody><tr><td>Board of Supervisors (7 magisterial districts)<br><span class="muted">Primary local decision-makers on rezoning and land use — start here.</span></td><td>— (verify)</td><td>botetourtva.gov</td></tr><tr><td>County Administrator</td><td>— (verify)</td><td>botetourtva.gov</td></tr></tbody></table>
+    <h2 id="j-troutville">Troutville (Town)</h2>
+    <table class="docs"><thead><tr><th>Office</th><th>Who</th><th>Public contact</th></tr></thead><tbody><tr><td>Mayor<br><span class="muted">Incorporated town within Botetourt County, near the Greenfield area.</span></td><td>— (verify)</td><td>troutville.org</td></tr><tr><td>Town Council</td><td>— (verify)</td><td>troutville.org</td></tr></tbody></table>
+    <h2 id="j-virginia">Virginia (Commonwealth)</h2>
+    <table class="docs"><thead><tr><th>Office</th><th>Who</th><th>Public contact</th></tr></thead><tbody><tr><td>State Senator (district covering Botetourt)</td><td>— (verify)</td><td>virginiageneralassembly.gov</td></tr><tr><td>Delegate, House of Delegates (local district)</td><td>— (verify)</td><td>virginiageneralassembly.gov</td></tr><tr><td>Governor of Virginia</td><td>— (verify)</td><td>governor.virginia.gov</td></tr><tr><td>Dept. of Environmental Quality (DEQ)<br><span class="muted">Where environmental permit comments are submitted.</span></td><td>Permitting &amp; public comment</td><td>deq.virginia.gov</td></tr></tbody></table>
+
+    <h2 id="key-figures">Key figures in this fight</h2>
+    <p class="muted">The named public officials and public-body leaders whose decisions and public roles shape Project Raspberry — drawn from the public record (meeting materials, the county/EDA performance agreement, FOIA-released correspondence, and press releases). <strong>Public-capacity roles and public office channels only</strong> — we do not publish personal contact details, and we do not list private citizens or reporters here. Names/roles are <em>placeholders until verified</em> against official government pages, and this page is not legal-reviewed.</p>
+
+    <p class="grouplabel">Botetourt County — elected &amp; appointed decision-makers</p>
+    <div class="people">
+      <div class="person"><span class="role">Chair · Board of Supervisors</span><h3>Mac Scothorn</h3><div class="org">Botetourt County</div>
+        <p>Chairs the Board of Supervisors — the body with rezoning and land-use authority over the Greenfield site where the datacenter campus is proposed.</p>
+        <div class="contact">Public office: <a href="https://botetourtva.gov" target="_blank" rel="noopener">botetourtva.gov</a> · Board of Supervisors</div></div>
+      <div class="person"><span class="role">Vice-Chair · Board of Supervisors</span><h3>Brandon Nicely</h3><div class="org">Botetourt County</div>
+        <p>Vice-Chair of the Board of Supervisors; votes on the land-use and rezoning decisions tied to the project.</p>
+        <div class="contact">Public office: <a href="https://botetourtva.gov" target="_blank" rel="noopener">botetourtva.gov</a> · Board of Supervisors</div></div>
+      <div class="person"><span class="role">Member · Board of Supervisors</span><h3>Tim Snyder</h3><div class="org">Botetourt County</div>
+        <p>Member of the Board of Supervisors; appears among the April 2026 project-recruitment attendees in FOIA-released records.</p>
+        <div class="contact">Public office: <a href="https://botetourtva.gov" target="_blank" rel="noopener">botetourtva.gov</a> · Board of Supervisors</div></div>
+      <div class="person"><span class="role">County Administrator</span><h3>Gary Larrowe</h3><div class="org">Botetourt County</div>
+        <p>The county's chief administrator; the named county contact/signatory on the Google/Helio Economic Development Performance Agreement and a lead public voice quoted in county press releases promoting the deal.</p>
+        <div class="contact">Public office: County Administration · <a href="https://botetourtva.gov" target="_blank" rel="noopener">botetourtva.gov</a> · (540) 928-2006</div></div>
+      <div class="person"><span class="role">Deputy County Administrator</span><h3>David Moorman</h3><div class="org">Botetourt County</div>
+        <p>Deputy County Administrator; part of the county administration advancing the project.</p>
+        <div class="contact">Public office: <a href="https://botetourtva.gov" target="_blank" rel="noopener">botetourtva.gov</a> · County Administration</div></div>
+      <div class="person"><span class="role">Chair · Economic Development Authority</span><h3>John Kilby</h3><div class="org">Botetourt County EDA</div>
+        <p>Chairs the EDA — the county body that entered the performance/incentives agreement with Helio Capital LLC (the Google-linked shell entity).</p>
+        <div class="contact">Public office: <a href="https://botetourtva.gov" target="_blank" rel="noopener">botetourtva.gov</a> · Economic Development Authority</div></div>
+      <div class="person"><span class="role">Member · Economic Development Authority</span><h3>Joe Thompson</h3><div class="org">Botetourt County EDA</div>
+        <p>EDA board member; the EDA holds the incentives agreement tied to the project.</p>
+        <div class="contact">Public office: <a href="https://botetourtva.gov" target="_blank" rel="noopener">botetourtva.gov</a> · Economic Development Authority</div></div>
+      <div class="person"><span class="role">Member · Economic Development Authority</span><h3>Dr. Richard Bailey</h3><div class="org">Botetourt County EDA</div>
+        <p>EDA board member involved in the authority's role advancing the development.</p>
+        <div class="contact">Public office: <a href="https://botetourtva.gov" target="_blank" rel="noopener">botetourtva.gov</a> · Economic Development Authority</div></div>
+      <div class="person"><span class="role">Chair · Planning Commission</span><h3>Dr. Beth Leffel</h3><div class="org">Botetourt County</div>
+        <p>Chairs the Planning Commission, which reviews and recommends on rezoning and land-use matters before the Board of Supervisors.</p>
+        <div class="contact">Public office: <a href="https://botetourtva.gov" target="_blank" rel="noopener">botetourtva.gov</a> · Planning Commission</div></div>
+    </div>
+
+    <p class="grouplabel">Botetourt County — economic-development &amp; communications staff</p>
+    <div class="people">
+      <div class="person"><span class="role">Director of Economic Development</span><h3>Kyle Rosner</h3><div class="org">Botetourt County</div>
+        <p>The county's lead economic-development staffer on the project; recurs throughout FOIA-released project correspondence.</p>
+        <div class="contact">Public office: <a href="https://botetourtva.gov" target="_blank" rel="noopener">botetourtva.gov</a> · Economic Development</div></div>
+      <div class="person"><span class="role">Director of Community Development</span><h3>Nicole Pendleton</h3><div class="org">Botetourt County</div>
+        <p>Directs Community Development, the office handling the land-use/planning side of the proposal.</p>
+        <div class="contact">Public office: <a href="https://botetourtva.gov" target="_blank" rel="noopener">botetourtva.gov</a> · Community Development</div></div>
+      <div class="person"><span class="role">Director of Communications</span><h3>Brent Watts</h3><div class="org">Botetourt County</div>
+        <p>Handles the county's public communications and messaging on the datacenter, including press releases.</p>
+        <div class="contact">Public office: <a href="https://botetourtva.gov" target="_blank" rel="noopener">botetourtva.gov</a> · Communications</div></div>
+    </div>
+
+    <p class="grouplabel">Virginia — state officials</p>
+    <div class="people">
+      <div class="person"><span class="role">State Senator</span><h3>Chris Head</h3><div class="org">Virginia Senate</div>
+        <p>State Senator whose district covers Botetourt County; appears among April 2026 project-recruitment attendees in FOIA-released records.</p>
+        <div class="contact">Public office: <a href="https://virginiageneralassembly.gov" target="_blank" rel="noopener">virginiageneralassembly.gov</a></div></div>
+      <div class="person"><span class="role">Delegate · 37th District</span><h3>Terry Austin</h3><div class="org">Virginia House of Delegates</div>
+        <p>Member of the House of Delegates for the district covering the area.</p>
+        <div class="contact">Public office: <a href="https://virginiageneralassembly.gov" target="_blank" rel="noopener">virginiageneralassembly.gov</a></div></div>
+    </div>
+
+    <p class="grouplabel">Regional public bodies</p>
+    <div class="people">
+      <div class="person"><span class="role">Executive Director</span><h3>Mike McEvoy</h3><div class="org">Western Virginia Water Authority (WVWA)</div>
+        <p>Leads the regional water authority that signed the water-services/utility agreements securing long-term water supply for the campus — central to the Carvins Cove demand question.</p>
+        <div class="contact">Public body: <a href="https://westernvawater.org" target="_blank" rel="noopener">westernvawater.org</a></div></div>
+    </div>
+
+    <p class="callout"><strong>Not listed here:</strong> reporters covering the story, private citizens, and lower-level staff who appear in source documents — plus all personal phone numbers and personal emails. EAST names public officials on their public conduct, not private individuals. A fuller internal roster is kept in the members-only workspace for research and review, not for publication.</p>
+  </section>
+
+  <!-- WINS -->
+  <section class="view" id="v-wins">
+    <h1>Wins &amp; Hope</h1>
+    <p class="lede">Fatalism is the opponent's best tool. Communities have pushed back — and won.</p>
+    <div class="wins">
+      <div class="card"><h3>Community forces disclosure of documents</h3><div class="meta">Botetourt County, VA</div><p>Placeholder win — sustained public-records pressure surfaced key filings.</p></div>
+      <div class="card"><h3>Neighboring county rejects a similar rezoning</h3><div class="meta">Virginia</div><p>Placeholder — other communities have said no.</p></div>
+    </div>
+  </section>
+
+  <!-- HISTORY -->
+  <section class="view" id="v-history">
+    <h1>History of the Roanoke Valley</h1>
+    <p class="lede">EAST is rooted in a specific place — the Roanoke Valley and the Botetourt County uplands around it. This is a plain-language overview, not a textbook.</p>
+    <div class="card"><h3>First peoples</h3><p>Long before county lines, the Roanoke Valley was home to and traveled by Indigenous peoples, including Siouan-speaking groups such as the Tutelo and Monacan. Salt licks in the valley — the origin of the name “Big Lick” — drew game and people alike.</p></div>
+    <div class="card"><h3>Frontier settlement &amp; Botetourt County</h3><p>European settlement pushed up the Great Wagon Road in the 1700s. Botetourt County was formed in 1770. Greenfield — the tract now at the center of the datacenter fight — was the plantation seat of the prominent Preston family.</p></div>
+    <div class="card"><h3>The railroad boomtown</h3><p>In 1882 the village of Big Lick was chosen as a junction for the Norfolk &amp; Western Railway and renamed Roanoke — “the Magic City.” The railroad set the pattern of outside industry reshaping the community that echoes today.</p></div>
+    <div class="card"><h3>Farms, water &amp; the valley today</h3><p>Beyond the city, the valley and Botetourt's uplands remain farmland, forest, rivers, and the Blue Ridge — which is exactly why a development that demands enormous water and power is a community question.</p></div>
+  </section>
+
+  <!-- NEWS -->
+  <section class="view" id="v-blog">
+    <h1>News</h1>
+    <ul class="post-list big">
+      <li><a data-view="post-water">Botetourt, Roanoke region deserve real water numbers for Google's Project Raspberry</a><div class="meta">2026-07-09 · Environmental Accountability &amp; Strategy Team <span class="tag">analysis</span> <span class="tag">verified</span> · <a data-view="topic-water">Water &amp; power</a></div><p class="muted">The public heard "up to 8 MGD." FOIA'd planning records point to 10–11 MGD — with a ~$170M water-main. Every claim is checked against a primary source.</p></li>
+      <li><a data-view="post-welcome">Why we built this site</a><div class="meta">2026-07-15 · EAST Coalition <span class="tag">announcement</span></div><p class="muted">The public heard Google's framing first. This is the counter-source.</p></li>
+      <li><a data-view="post-openhouse">What the 'open house' actually disclosed</a><div class="meta">2026-07-12 · EAST Coalition <span class="tag">analysis</span> · <a data-view="topic-raspberry">What is Project Raspberry?</a></div><p class="muted">A one-way Q&amp;A that functioned as PR.</p></li>
+    </ul>
+  </section>
+
+  <!-- POST: water (flagship, source-verified) -->
+  <section class="view" id="v-post-water">
+    <article class="post">
+      <p class="crumb"><a data-view="blog">← News</a></p>
+      <h1>Botetourt, Roanoke region deserve real water numbers for Google's Project Raspberry</h1>
+      <div class="meta">2026-07-09 · Environmental Accountability &amp; Strategy Team <span class="tag">analysis</span> <span class="tag">verified</span></div>
+      <p class="meta">Filed under <a data-view="topic-water">Water &amp; power</a></p>
+
+      <div class="fig-stub">📷 Photograph
+        <div class="cap">The water level is at 14.7 feet below full pond at the boat landing at Carvins Cove Natural Reserve on Thursday, July 9, 2026, in Roanoke. (Photograph by Scott Yates / SWVA DCTA)</div>
+      </div>
+
+      <div class="article-body">
+        <p>The public has repeatedly heard that the project may need <strong>up to 8 million gallons of water per day</strong>. But public records show that behind the scenes, the planning discussions were larger and more troubling. In July 2024, project-related questions asked how to reach <strong>3.5 million gallons per day for "Day 01"</strong> and discussed a dedicated water-main extension, tanks and pumps to achieve <strong>10 to 11 million gallons per day</strong> to the site. In April 2026, after WVWA asked whether Google wanted to keep a "Day 1 plus Day N" approach or "skip over Day 1" and focus on constructing Day N from the start, a Google representative responded that the preferred approach was to proceed with the Day N framework and skip Day 1.</p>
+        <p>(The documents above were acquired through a Freedom of Information Act request.) That does not prove WVWA has agreed to provide 10 or 11 MGD. But it does show the public has not been given the full picture. This is not a minor technical detail. Water capacity affects drought planning, reservoir reliability, infrastructure costs, sewer capacity, ratepayer risk, and whether other communities and future users may be constrained. One engineer noted that 3.5 MGD for the first building would likely require improvements beyond currently planned projects.</p>
+        <p>If the larger water scenario is no longer being pursued, Google, WVWA and Botetourt County should say so clearly and in writing. If it remains part of the plan, the public deserves to know before grading begins and before infrastructure decisions become irreversible. Residents should not be asked to accept one number in public while larger numbers appear in planning records.</p>
+        <p>The question is simple: what is the true maximum water demand for Project Raspberry, who will pay for the infrastructure, and what happens during drought? Before this project moves forward, those answers should be public. Not later. Now.</p>
+      </div>
+
+      <div class="verify-box">
+        <p class="vlabel">Sources &amp; claim verification</p>
+        <p class="muted" style="font-size:.92rem">Every factual claim in this piece was checked against a primary source before publishing — EAST's core principle of Accuracy. The key water figures trace to a FOIA-released Water Resource Authority planning agenda; in the live site each row links to the document in the <a data-view="library">library</a>.</p>
+        <table class="claimcheck">
+          <thead><tr><th>Claim</th><th>Verdict</th><th>Primary source</th></tr></thead>
+          <tbody>
+            <tr><td>Public figure: "up to 8 MGD"</td><td><span class="vbadge ok">Verified</span></td><td class="srcq">WVWA told the applicant "their total flow is limited to 8 mgd" — <em>Agenda for Raspberry WRA</em> (FOIA)</td></tr>
+            <tr><td>3.5 MGD for "Day 01" (first building)</td><td><span class="vbadge ok">Verified · primary</span></td><td class="srcq">"3.5 MGD just for Raspberry on Day 1" — <em>Agenda for Raspberry WRA</em> (FOIA)</td></tr>
+            <tr><td>10–11 MGD "Day N" (full build)</td><td><span class="vbadge ok">Verified · primary</span></td><td class="srcq">"…to achieve 10–11 MGD to the site" — <em>Agenda for Raspberry WRA</em> (FOIA)</td></tr>
+            <tr><td>Dedicated water-main / tanks &amp; pumps (~$170M)</td><td><span class="vbadge ok">Verified · primary</span></td><td class="srcq">"ballpark $170M project with tanks, pumps, watermain" — <em>Agenda for Raspberry WRA</em> (FOIA)</td></tr>
+            <tr><td>April 2026: Google chose "Day N, skip Day 1"</td><td><span class="vbadge corrob">Corroborated</span></td><td class="srcq">"Google Raspberry — Real Water Numbers" email + voice memo</td></tr>
+            <tr><td>Carvins Cove is the drinking-water source</td><td><span class="vbadge ok">Verified</span></td><td class="srcq">Water &amp; cooling documentation (Carvins Cove Reservoir)</td></tr>
+            <tr><td>Reservoir 14.7 ft below full pond, Jul 9 2026</td><td><span class="vbadge flag">Author observation</span></td><td class="srcq">Dated photograph by the author — not independently in the corpus; decline trend corroborated by WVWA reservoir data</td></tr>
+          </tbody>
+        </table>
+        <p class="muted" style="font-size:.82rem">7 of 7 claims supported. The four water figures the piece hinges on trace to a single primary FOIA document — not to advocacy summaries.</p>
+      </div>
+
+      <div class="share" data-share="Botetourt deserves real water numbers for Project Raspberry — EAST" aria-label="Share"></div>
+    </article>
+  </section>
+
+  <!-- POST: welcome -->
+  <section class="view" id="v-post-welcome">
+    <article class="post"><p class="crumb"><a data-view="blog">← News</a></p><h1>Why we built this site</h1><div class="meta">2026-07-15 · EAST Coalition <span class="tag">announcement</span></div><p>Placeholder post body. The blog supports multiple authors and tags, and is the fast-moving layer on top of the document library and topic pages.</p><div class="share" data-share="Why we built this site — EAST" aria-label="Share"></div></article>
+  </section>
+
+  <!-- POST: open house -->
+  <section class="view" id="v-post-openhouse">
+    <article class="post"><p class="crumb"><a data-view="blog">← News</a></p><h1>What the 'open house' actually disclosed</h1><div class="meta">2026-07-12 · EAST Coalition <span class="tag">analysis</span></div><p class="meta">Filed under <a data-view="topic-raspberry">What is Project Raspberry?</a></p><p>Placeholder recap. In production, claims here link to the debunking section and the document library.</p><div class="share" data-share="What the open house disclosed — EAST" aria-label="Share"></div></article>
+  </section>
+
+  <!-- DOCUMENTS -->
+  <section class="view" id="v-library">
+    <h1>Document Library</h1>
+    <p class="lede">Every claim on this site traces back to a primary source. Search the record.</p>
+    <form class="search-big" role="search" onsubmit="return runSearch(event)">
+      <input id="lib-q" type="search" placeholder="Search documents (e.g. NDA, water, Helios)…" aria-label="Search documents">
+      <button type="submit">Search</button>
+    </form>
+    <p class="muted" id="lib-count"></p>
+    <table class="docs"><thead><tr><th>Document</th><th>Type</th><th>Date</th><th>Synopsis</th></tr></thead>
+      <tbody id="doc-rows">
+        <tr><td>Rezoning Application — Greenfield (PLACEHOLDER)</td><td>Filing</td><td>2026-05-01</td><td>The application seeking to rezone the Greenfield parcel for the data-center campus. Applicant: Helios LLC (shell).</td></tr>
+        <tr><td>Board of Supervisors Minutes — June (PLACEHOLDER)</td><td>Minutes</td><td>2026-06-10</td><td>Meeting minutes referencing the data-center proposal and closed-session discussion. NDA referenced.</td></tr>
+        <tr><td>DEQ Correspondence (PLACEHOLDER)</td><td>Correspondence</td><td>2026-06-20</td><td>Correspondence with the Virginia DEQ regarding water withdrawal, stormwater, and air permits.</td></tr>
+      </tbody></table>
+    <div class="share" data-share="Project Raspberry document library — EAST" aria-label="Share"></div>
+  </section>
+
+  <!-- CONTACT -->
+  <section class="view" id="v-contact">
+    <h1>Contact</h1>
+    <p class="lede">To cut down on spam, our address is revealed after a quick human check.</p>
+    <div class="contact card"><p>What is <strong>4 + 7</strong>?</p><div class="captcha"><input type="text" placeholder="answer" aria-label="answer"><button type="button" onclick="document.getElementById('rev').style.display='block'">Reveal email</button></div><p id="rev" style="display:none;margin-top:12px">Email: <span class="email">east.ops@proton.me</span> <span class="muted">(demo — verified server-side in the real site)</span></p></div>
+  </section>
+
+  <!-- DONATE (item 5: prominent + clear) -->
+  <section class="view" id="v-donate">
+    <h1>Support EAST</h1>
+    <p class="lede">Donations fund research, public-records requests, printing, and lawful advocacy — <em>not</em> private gain. Where every dollar goes is meant to be understandable to supporters (that's our Transparency principle).</p>
+    <div class="give-cta">
+      <h3>Make a donation</h3>
+      <p class="muted">Placeholder — the real button links to our giving platform once chosen.</p>
+      <a class="btn primary" href="#" onclick="return false">♥ Donate to EAST</a>
+    </div>
+    <p class="muted">Looking to help without giving money? See <a data-view="action">Take Action</a>.</p>
+  </section>
+
+</main>
+
+<footer class="site">
+  <div class="wrap foot">
+    <!-- CHANGE (item 4): location wording per Sylvia -->
+    <p><strong>EAST</strong> — Environmental Accountability &amp; Strategy Team · Roanoke Valley, Botetourt County, and neighboring regions of Virginia</p>
+    <p class="muted">Placeholder POC demo. Content is not legal-reviewed.</p>
+  </div>
+</footer>
+
+<script>
+  function showView(id){
+    var el=document.getElementById('v-'+id);
+    if(!el){ id='home'; el=document.getElementById('v-home'); }
+    document.querySelectorAll('.view').forEach(function(v){ v.classList.remove('active'); });
+    el.classList.add('active');
+    document.querySelectorAll('.nav a').forEach(function(a){ a.classList.toggle('on', a.getAttribute('data-view')===id); });
+    document.body.classList.remove('nav-open');
+    window.scrollTo(0,0);
+    try{ history.replaceState(null,'','#'+id); }catch(e){}
+  }
+  document.addEventListener('click', function(e){
+    var t=e.target.closest('[data-view]');
+    if(t){ e.preventDefault(); showView(t.getAttribute('data-view')); }
+  });
+  window.addEventListener('DOMContentLoaded', function(){
+    buildShareRows();
+    showView((location.hash||'#home').slice(1));
+  });
+  function scrollTo2(id){ var el=document.getElementById(id); if(el) el.scrollIntoView({behavior:'smooth'}); }
+
+  // ---- Document search ----
+  function runSearch(e){ if(e) e.preventDefault();
+    var q=(document.getElementById('lib-q').value||'').toLowerCase().trim();
+    var rows=document.querySelectorAll('#doc-rows tr'), shown=0;
+    rows.forEach(function(tr){ var hit=!q||tr.textContent.toLowerCase().indexOf(q)>-1; tr.style.display=hit?'':'none'; if(hit) shown++; });
+    document.getElementById('lib-count').textContent=q?(shown+' of '+rows.length+' documents match “'+q+'”'):'';
+    return false; }
+  function headerSearch(e){ e.preventDefault(); var q=document.getElementById('mini-q').value; showView('library'); document.getElementById('lib-q').value=q; runSearch(); }
+
+  // ---- Share rows (built from data-share): Share…, X, Facebook, LinkedIn, Email, Copy ----
+  function buildShareRows(){
+    document.querySelectorAll('.share[data-share]').forEach(function(row){
+      var title=row.getAttribute('data-share');
+      row.innerHTML='<span class="share-label">Share:</span>'+
+        '<button type="button" class="share-btn" data-title="'+title+'" onclick="eastShare(this)">Share…</button>'+
+        '<a class="share-btn" onclick="shareNet(\'x\',this)" data-title="'+title+'">X</a>'+
+        '<a class="share-btn" onclick="shareNet(\'facebook\',this)" data-title="'+title+'">Facebook</a>'+
+        '<a class="share-btn" onclick="shareNet(\'linkedin\',this)" data-title="'+title+'">LinkedIn</a>'+
+        '<a class="share-btn" onclick="shareNet(\'email\',this)" data-title="'+title+'">Email</a>'+
+        '<button type="button" class="share-btn" onclick="eastCopy(this)">Copy link</button>';
+    });
+  }
+  function shareNet(net,el){
+    var url=encodeURIComponent(location.href);
+    var title=encodeURIComponent(el.getAttribute('data-title')||document.title);
+    var map={ x:'https://twitter.com/intent/tweet?text='+title+'&url='+url,
+      facebook:'https://www.facebook.com/sharer/sharer.php?u='+url,
+      linkedin:'https://www.linkedin.com/sharing/share-offsite/?url='+url,
+      email:'mailto:?subject='+title+'&body='+url };
+    if(net==='email'){ location.href=map.email; } else { window.open(map[net],'_blank','noopener'); }
+    return false;
+  }
+  function eastShare(el){ var url=location.href, title=el.getAttribute('data-title')||document.title;
+    if(navigator.share){ navigator.share({title:title,url:url}).catch(function(){}); } else { eastCopy(el); } }
+  function eastCopy(el){ var url=location.href;
+    if(navigator.clipboard){ navigator.clipboard.writeText(url).then(function(){ flash(el,'Link copied ✓'); }).catch(function(){ window.prompt('Copy this link:',url); }); }
+    else { window.prompt('Copy this link:',url); } }
+  function flash(el,msg){ var p=el.getAttribute('data-label')||el.textContent; el.setAttribute('data-label',p); el.textContent=msg; setTimeout(function(){ el.textContent=p; },1500); }
+</script>
+</body>
+</html>

@@ -1,0 +1,65 @@
+name: Deploy Pages (prod / dev / preview)
+
+# Publishes three environments from three branches, all under one Pages site:
+#   main    -> /            (prod: landing + /public/ + /institute/ + /images/)
+#   dev     -> /dev/        (integration; e.g. /dev/public/)
+#   preview -> /preview/    (current POC being shown for approval; /preview/public/)
+# Each env is a full copy of that branch's tree, so relative asset paths
+# (public/index.html -> ../images/...) resolve within the env.
+
+on:
+  push:
+    branches: [main, dev, preview]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+# Serialize deploys so the last push wins with correct assembled content.
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Assemble prod / dev / preview
+        run: |
+          set -eu
+          for b in main dev preview; do
+            git fetch --no-tags --depth=1 origin "$b" 2>/dev/null || true
+          done
+          rm -rf _site && mkdir -p _site
+          add_env () {   # $1 = branch, $2 = dest subdir ("" = site root / prod)
+            ref="origin/$1"; dest="_site/$2"
+            if git rev-parse --verify -q "$ref" >/dev/null; then
+              mkdir -p "$dest"
+              git archive "$ref" | tar -x -C "$dest" --exclude='.github' --exclude='.git'
+              echo "assembled $1 -> ${2:-<root>}"
+            else
+              echo "branch $1 not found on origin, skipping"
+            fi
+          }
+          add_env main ""
+          add_env dev dev
+          add_env preview preview
+          touch _site/.nojekyll
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: _site
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@v4

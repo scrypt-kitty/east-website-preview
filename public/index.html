@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>EAST — Stop Project Raspberry (Demo)</title>
+<title>EAST — Environmental Accountability &amp; Strategy Team (Demo)</title>
 <meta name="description" content="Environmental stewardship, transparency, and accountability in the Roanoke Valley, Botetourt County, and neighboring regions of Virginia.">
 <style>
 :root{
@@ -133,6 +133,14 @@ ol.steps{margin:.4em 0;padding-left:20px}ol.steps li{margin:8px 0}
 /* Donate */
 .give-cta{background:var(--card);border:2px solid var(--accent);border-radius:12px;padding:22px;text-align:center;margin:16px 0}
 .give-cta .btn{margin-top:8px}
+/* CHANGE (2026-08-30): Join CTA, donate QR, campaigns + resources */
+.give.alt{background:transparent;color:var(--accent);border:2px solid var(--accent)}
+.qr-give{display:flex;gap:22px;align-items:center;justify-content:center;flex-wrap:wrap;margin-top:16px}
+.qr-give img{width:180px;height:180px;border-radius:10px;border:1px solid var(--line);background:#fff;padding:6px}
+.campaign-label{font-family:var(--mono);font-size:.72rem;text-transform:uppercase;letter-spacing:1px;color:var(--accent);margin:0 0 4px}
+.res-list{display:grid;gap:12px;margin:10px 0}
+.res-list .card{margin:0}
+.res-src{font-family:var(--mono);font-size:.7rem;text-transform:uppercase;letter-spacing:.5px;color:var(--muted);display:block}
 
 /* Documents / search */
 .search-big{display:flex;gap:8px;margin:16px 0}
@@ -197,7 +205,7 @@ table.claimcheck th{font-family:var(--mono);font-size:.7rem;text-transform:upper
 <header class="site">
   <div class="wrap bar">
     <a class="brand" data-view="home">
-      <img class="logo" src="../images/branding/east-logo-1-centered-text.png" alt="EAST logo">
+      <img class="logo" src="../images/branding/east-logo-2026.png" alt="EAST logo"><!-- CHANGE (2026-08-30): client-provided EAST badge logo -->
       <span class="brandtext">
         <span class="mark">EAST</span>
         <span class="sub">Environmental Accountability &amp; Strategy Team</span>
@@ -205,15 +213,18 @@ table.claimcheck th{font-family:var(--mono);font-size:.7rem;text-transform:upper
     </a>
     <button class="menu-btn" aria-label="Menu" onclick="document.body.classList.toggle('nav-open')">☰</button>
     <a class="give" data-view="donate">♥ Donate</a>
+    <a class="give alt" href="https://tally.so/r/5B0XV6" target="_blank" rel="noopener">✊ Join</a><!-- CHANGE (2026-08-30): Join us via Tally -->
     <form class="search-mini" role="search" onsubmit="headerSearch(event)">
       <input id="mini-q" name="q" type="search" placeholder="Search documents…" aria-label="Search">
     </form>
     <nav class="nav" id="nav">
       <a data-view="home">Home</a>
+      <a data-view="campaigns">Campaigns</a><!-- CHANGE (2026-08-30): multi-cause umbrella -->
       <a data-view="topics">Topics</a>
       <a data-view="debunking">Debunking</a>
       <a data-view="faq">FAQ</a>
       <a data-view="action">Take Action</a>
+      <a data-view="resources">Resources</a><!-- CHANGE (2026-08-30): our materials + other orgs -->
       <a data-view="politicians">Officials</a>
       <a data-view="wins">Wins</a>
       <a data-view="history">History</a>
@@ -230,19 +241,21 @@ table.claimcheck th{font-family:var(--mono);font-size:.7rem;text-transform:upper
   <section class="view active" id="v-home">
     <div class="hero">
       <figure class="hero-fig">
-        <img class="hero-logo" src="../images/branding/east-logo-1-centered-text.png" alt="Environmental Accountability & Strategy Team (EAST) — sunrise over mountains and a river, with the EAST wordmark">
+        <img class="hero-logo" src="../images/branding/east-logo-2026.png" alt="Environmental Accountability & Strategy Team (EAST) — sunrise over mountains and a river, with the EAST wordmark and the motto Inform · Engage · Advocate · Protect"><!-- CHANGE (2026-08-30): client-provided EAST badge logo -->
       </figure>
 
       <!-- CHANGE (items 7 + 9): short, plain mission right below the picture -->
       <p class="lede mission-summary">EAST is a community coalition working for environmental stewardship, transparency, and accountability in the Roanoke Valley, Botetourt County, and neighboring regions of Virginia — through research, plain-language facts, and lawful advocacy.</p>
 
       <div class="hero-copy">
+        <p class="campaign-label">EAST's current campaign</p><!-- CHANGE (2026-08-30): frame the datacenter fight as one campaign under a multi-cause org -->
         <h1>A secret Google datacenter is coming to Botetourt County.</h1>
         <p class="lede">The public heard Google's version first. Here's the sourced, plain-language counter-record — and what you can do about it.</p>
         <!-- CHANGE (item 10): Understand the Issue now sits left of Read the Documents -->
         <div class="cta-row">
           <a class="btn primary" data-view="action">Take Action</a>
-          <a class="btn" data-view="topics">Understand the Issue</a>
+          <a class="btn" href="https://tally.so/r/5B0XV6" target="_blank" rel="noopener">Join us</a><!-- CHANGE (2026-08-30): join form (Tally) -->
+          <a class="btn ghost" data-view="topics">Understand the Issue</a>
           <a class="btn ghost" data-view="library">Read the Documents</a>
         </div>
       </div>
@@ -280,6 +293,24 @@ table.claimcheck th{font-family:var(--mono);font-size:.7rem;text-transform:upper
     </section>
 
     <div class="share" data-share="Stop Project Raspberry — EAST" aria-label="Share"></div>
+  </section>
+
+  <!-- CAMPAIGNS (2026-08-30: multi-cause umbrella) -->
+  <section class="view" id="v-campaigns">
+    <h1>Our campaigns</h1>
+    <p class="lede">EAST is about dignity for our environment and our communities. We're laser-focused on one fight right now — but we're built to take on the next one, too.</p>
+    <p class="campaign-label">Active campaign</p>
+    <div class="card">
+      <h3><a data-view="topic-raspberry">Stop Project Raspberry</a></h3>
+      <p>A Google-linked hyperscale datacenter proposed for Greenfield in Botetourt County — advanced under a shell entity and shrouded in NDAs. This is where our research, documents, and organizing are aimed today.</p>
+      <p><a class="btn" data-view="topics">Understand the issue</a> <a class="btn ghost" data-view="action">Take action</a></p>
+    </div>
+    <p class="campaign-label">On the horizon</p>
+    <div class="card">
+      <h3>More environmental &amp; community causes — coming</h3>
+      <p class="muted">Once this fight resolves, EAST intends to organize around other environmental and community-accountability issues in the Roanoke Valley and beyond. Have one we should know about? <a href="https://tally.so/r/5B0XV6" target="_blank" rel="noopener">Tell us / join us ↗</a></p>
+    </div>
+    <div class="share" data-share="EAST campaigns" aria-label="Share"></div>
   </section>
 
   <!-- TOPICS -->
@@ -393,8 +424,9 @@ table.claimcheck th{font-family:var(--mono);font-size:.7rem;text-transform:upper
     </div>
     <h2 id="how-to-help">How to help</h2>
     <div class="actions">
+      <div class="card"><h3>Join EAST</h3><p>Add your name and get involved — meetings, actions, and updates. <a href="https://tally.so/r/5B0XV6" target="_blank" rel="noopener">Fill out the join form ↗</a>.</p></div><!-- CHANGE (2026-08-30): join form (Tally) -->
       <div class="card"><h3>Run a neighborhood workshop</h3><p>A step-by-step guide to hosting a 45-minute info session with your neighbors. Placeholder.</p></div>
-      <div class="card"><h3>Print &amp; share materials</h3><p>Grab print-ready flyers and fact sheets from <a onclick="scrollTo2('printables')">Printables</a> below, and share the site with neighbors.</p></div>
+      <div class="card"><h3>Print &amp; share materials</h3><p>Grab print-ready flyers and fact sheets from <a data-view="resources">Resources</a>, and share the site with neighbors.</p></div>
       <div class="card"><h3>Support the work</h3><p>Donations fund research, records requests, and printing. See <a data-view="donate">Donate</a> for how — and where every dollar goes.</p></div>
     </div>
     <h2 id="printables">Printables</h2>
@@ -409,6 +441,31 @@ table.claimcheck th{font-family:var(--mono);font-size:.7rem;text-transform:upper
       <div class="card"><span class="ptype">Flyer</span><h3>Print &amp; post — meeting reminder</h3><p class="muted">Half-page flyer for the next Board of Supervisors meeting. Placeholder.</p><p><a>Download PDF (placeholder)</a></p></div>
     </div>
     <div class="share" data-share="Take action against Project Raspberry — EAST" aria-label="Share"></div>
+  </section>
+
+  <!-- RESOURCES (2026-08-30: our materials + articles from other orgs/publications) -->
+  <section class="view" id="v-resources">
+    <h1>Resources &amp; further reading</h1>
+    <p class="lede">Materials we've gathered — and the work of other organizations and publications covering the fight over data centers, water, and community power.</p>
+
+    <h2>Our materials</h2>
+    <p class="muted">Records obtained through Freedom of Information Act requests, plus print-ready fact sheets. Also searchable in <a data-view="library">Documents</a>. <span class="muted">(Files are placeholders in this demo.)</span></p>
+    <div class="print-grid">
+      <div class="card"><span class="ptype">FOIA'd material</span><h3>Records we've obtained</h3><p class="muted">Council packets and correspondence released under public-records law.</p><p><a>Download PDF (placeholder)</a></p></div>
+      <div class="card"><span class="ptype">Fact sheet · 1 page</span><h3>Project Raspberry — the basics</h3><p class="muted">What it is, where, who's behind it, and why the secrecy matters.</p><p><a>Download PDF (placeholder)</a></p></div>
+      <div class="card"><span class="ptype">Template</span><h3>FOIA request — how to file one</h3><p class="muted">A fill-in letter to request records yourself.</p><p><a>Download PDF (placeholder)</a></p></div>
+    </div>
+
+    <h2>From other organizations &amp; the press</h2>
+    <p class="muted">EAST didn't start this movement and isn't alone in it. These are outside resources — we link them plainly and don't control their content.</p>
+    <div class="res-list">
+      <div class="card"><span class="res-src">NAACP</span><h3><a href="https://naacp.org/resources/frontline-framework-community-guiding-principles" target="_blank" rel="noopener">Frontline Framework: Community Guiding Principles ↗</a></h3><p class="muted">Nine principles for communities organizing against harmful data centers.</p></div>
+      <div class="card"><span class="res-src">NAACP · PDF</span><h3><a href="https://naacp.org/sites/default/files/documents/Dirty%20Data%202026%20Recs.pdf" target="_blank" rel="noopener">2026 Recommendations to Stop Dirty Data ↗</a></h3><p class="muted">A playbook: moratoriums, ending NDAs, records requests, ratepayer protections.</p></div>
+      <div class="card"><span class="res-src">CNBC · Jul 2026</span><h3><a href="https://www.cnbc.com/2026/07/16/elon-musk-memphis-ai-colossus-data-center.html" target="_blank" rel="noopener">Musk's Memphis 'Colossus': epicenter of the data-center backlash ↗</a></h3><p class="muted">A cautionary case study — gas-turbine air pollution and unmet water promises in a majority-Black community.</p></div>
+      <div class="card"><span class="res-src">POWHR</span><h3><a href="https://powhr.org/mission-history" target="_blank" rel="noopener">Protect Our Water, Heritage, Rights ↗</a></h3><p class="muted">Appalachian water/heritage coalition with deep permit-comment experience in our region.</p></div>
+      <div class="card"><span class="res-src">EPN</span><h3><a href="https://www.environmentalprotectionnetwork.org" target="_blank" rel="noopener">Environmental Protection Network ↗</a></h3><p class="muted">Former EPA staff offering free technical help on air &amp; water permit comments.</p></div>
+    </div>
+    <div class="share" data-share="Resources &amp; further reading — EAST" aria-label="Share"></div>
   </section>
 
   <!-- OFFICIALS -->
@@ -504,7 +561,7 @@ table.claimcheck th{font-family:var(--mono);font-size:.7rem;text-transform:upper
   <!-- WINS -->
   <section class="view" id="v-wins">
     <h1>Wins &amp; Hope</h1>
-    <p class="lede">Fatalism is the opponent's best tool. Communities have pushed back — and won.</p>
+    <p class="lede">Fatalism is the opponent's best tool. Communities have pushed back — and won. As EAST takes on more causes, we'll log every win here.</p><!-- CHANGE (2026-08-30): wins span multiple causes -->
     <div class="wins">
       <div class="card"><h3>Community forces disclosure of documents</h3><div class="meta">Botetourt County, VA</div><p>Placeholder win — sustained public-records pressure surfaced key filings.</p></div>
       <div class="card"><h3>Neighboring county rejects a similar rezoning</h3><div class="meta">Virginia</div><p>Placeholder — other communities have said no.</p></div>
@@ -613,10 +670,14 @@ table.claimcheck th{font-family:var(--mono);font-size:.7rem;text-transform:upper
     <p class="lede">Donations fund research, public-records requests, printing, and lawful advocacy — <em>not</em> private gain. Where every dollar goes is meant to be understandable to supporters (that's our Transparency principle).</p>
     <div class="give-cta">
       <h3>Make a donation</h3>
-      <p class="muted">Placeholder — the real button links to our giving platform once chosen.</p>
-      <a class="btn primary" href="#" onclick="return false">♥ Donate to EAST</a>
+      <p class="muted">Securely via PayPal — no account required.</p>
+      <a class="btn primary" href="https://www.paypal.com/donate/?hosted_button_id=42NSELDMY83RG" target="_blank" rel="noopener">♥ Donate with PayPal</a><!-- CHANGE (2026-08-30): real PayPal button + QR -->
+      <div class="qr-give">
+        <img src="../images/branding/paypal-qr.png" alt="QR code linking to EAST's PayPal donation page" width="180" height="180">
+        <p class="muted">Or scan to give from your phone.</p>
+      </div>
     </div>
-    <p class="muted">Looking to help without giving money? See <a data-view="action">Take Action</a>.</p>
+    <p class="muted">Prefer to help another way? <a href="https://tally.so/r/5B0XV6" target="_blank" rel="noopener">Join us</a> or see <a data-view="action">Take Action</a>.</p>
   </section>
 
 </main>

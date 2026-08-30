@@ -604,7 +604,7 @@ table.claimcheck th{font-family:var(--mono);font-size:.7rem;text-transform:upper
   <section class="view" id="v-contact">
     <h1>Contact</h1>
     <p class="lede">To cut down on spam, our address is revealed after a quick human check.</p>
-    <div class="contact card"><p>What is <strong>4 + 7</strong>?</p><div class="captcha"><input type="text" placeholder="answer" aria-label="answer"><button type="button" onclick="document.getElementById('rev').style.display='block'">Reveal email</button></div><p id="rev" style="display:none;margin-top:12px">Email: <span class="email">east.ops@proton.me</span> <span class="muted">(demo — verified server-side in the real site)</span></p></div>
+    <div class="contact card"><p>What is <strong id="cap-eq">…</strong>?</p><div class="captcha"><input id="cap-ans" type="text" inputmode="numeric" placeholder="answer" aria-label="captcha answer"><button type="button" onclick="revealEmail()">Reveal email</button></div><p id="rev" style="display:none;margin-top:12px">Email: <a class="email" id="cap-email" href="#"></a> <span class="muted">(demo — verified server-side in the real site)</span></p><noscript><p class="muted">Enable JavaScript, or reach us via the join form.</p></noscript></div>
   </section>
 
   <!-- DONATE (item 5: prominent + clear) -->
@@ -646,9 +646,22 @@ table.claimcheck th{font-family:var(--mono);font-size:.7rem;text-transform:upper
   });
   window.addEventListener('DOMContentLoaded', function(){
     buildShareRows();
+    initCaptcha();
     showView((location.hash||'#home').slice(1));
   });
   function scrollTo2(id){ var el=document.getElementById(id); if(el) el.scrollIntoView({behavior:'smooth'}); }
+
+  // ---- Contact: captcha-gated email reveal (validates the answer; email kept out of static HTML) ----
+  var _capA=2+Math.floor(Math.random()*7), _capB=2+Math.floor(Math.random()*7);
+  function initCaptcha(){ var eq=document.getElementById('cap-eq'); if(eq) eq.textContent=_capA+' + '+_capB; }
+  function revealEmail(){
+    var i=document.getElementById('cap-ans');
+    if(parseInt((i.value||'').trim(),10)===_capA+_capB){
+      var e=['east','ops'].join('.')+'@'+['proton','me'].join('.');
+      var a=document.getElementById('cap-email'); a.textContent=e; a.href='mailto:'+e;
+      document.getElementById('rev').style.display='block';
+    } else { i.value=''; i.placeholder='try again'; i.focus(); }
+  }
 
   // ---- Document search ----
   function runSearch(e){ if(e) e.preventDefault();

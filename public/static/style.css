@@ -41,7 +41,9 @@ footer.site{border-top:1px solid var(--line);border-bottom:0;margin-top:3rem}
 .nav a:hover{background:var(--line)}
 .nav a.on{color:var(--accent);font-weight:700}
 .menu-btn{display:none}
-.give{margin-left:auto;padding:8px 16px;border-radius:8px;background:var(--accent);color:#fff;font-weight:700;text-decoration:none;font-size:.92rem;white-space:nowrap}
+.join{margin-left:auto;padding:8px 16px;border-radius:8px;border:2px solid var(--accent);color:var(--accent);font-weight:700;text-decoration:none;font-size:.92rem;white-space:nowrap}
+.join:hover{background:var(--accent);color:#fff}
+.give{margin-left:10px;padding:8px 16px;border-radius:8px;background:var(--accent);color:#fff;font-weight:700;text-decoration:none;font-size:.92rem;white-space:nowrap}
 .give:hover{opacity:.9}
 .search-mini{margin-left:10px}
 .search-mini input{font:inherit;padding:6px 10px;border:1px solid var(--line);border-radius:6px;background:var(--bg);color:var(--fg)}
@@ -83,6 +85,9 @@ ol.steps li{margin:8px 0}
 /* Donate */
 .give-cta{background:var(--card);border:2px solid var(--accent);border-radius:12px;padding:22px;text-align:center;margin:16px 0}
 .give-cta .btn{margin-top:8px}
+.give-cta .qr-cap{margin:18px 0 8px;font-size:.9rem}
+.give-cta .qr{display:block;margin:0 auto;width:190px;height:190px;border-radius:10px;background:#fff}
+.join-qr{display:block;margin:10px 0;width:150px;height:150px;border-radius:10px;background:#fff}
 
 /* Printables */
 .print-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px}

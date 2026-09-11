@@ -1,0 +1,103 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Search — EAST</title>
+  <meta name="description" content="Environmental stewardship, transparency, and accountability in the Roanoke Valley.">
+  <link rel="stylesheet" href="static/style.css">
+  <link rel="icon" type="image/png" href="static/img/favicon.png">
+  <link rel="apple-touch-icon" href="static/img/east-logo.png">
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+
+<header class="site">
+  <div class="wrap bar">
+    <a class="brand" href="index.html">
+      <span class="brand-row">
+        <img class="mark-img" src="static/img/east-mark.png" width="44" height="44"
+             alt="" loading="eager" decoding="async">
+        <span class="mark">EAST</span>
+      </span>
+      <span class="sub">Environmental Accountability &amp; Strategy Team</span>
+    </a>
+    <button class="menu-btn" aria-label="Menu" onclick="document.body.classList.toggle('nav-open')">☰</button>
+    <a class="give" href="donate.html">♥ Donate</a>
+    <form class="search-mini" action="search.html" method="get" role="search">
+      <input name="q" type="search" placeholder="Search documents…" aria-label="Search">
+    </form>
+    <nav class="nav">
+      
+      
+        <a href="index.html" class="">Home</a>
+      
+        <a href="topics.html" class="">Topics</a>
+      
+        <a href="debunking.html" class="">Debunking</a>
+      
+        <a href="faq.html" class="">FAQ</a>
+      
+        <a href="take-action.html" class="">Take Action</a>
+      
+        <a href="politicians.html" class="">Officials</a>
+      
+        <a href="wins.html" class="">Wins</a>
+      
+        <a href="history.html" class="">History</a>
+      
+        <a href="blog.html" class="">News</a>
+      
+        <a href="library.html" class="on">Documents</a>
+      
+        <a href="contact.html" class="">Contact</a>
+      
+    </nav>
+  </div>
+</header>
+
+<main id="main" class="wrap">
+  
+<h1>Search</h1>
+<form class="search-big" action="search.html" method="get" role="search">
+  <input name="q" type="search" value="" placeholder="Search documents…" aria-label="Search">
+  <button type="submit">Search</button>
+</form>
+
+
+
+</main>
+
+<footer class="site">
+  <div class="wrap foot">
+    <p><strong>EAST</strong> — Environmental Accountability &amp; Strategy Team · Roanoke Valley, Botetourt County, and neighboring regions of Virginia</p>
+    <p class="muted">
+      Placeholder POC. Content is not legal-reviewed.
+      <a href="credits.html">Image &amp; source credits</a>
+    </p>
+  </div>
+</footer>
+
+<script>
+  // Native share sheet (mobile includes Instagram, Messages, etc.); clipboard fallback.
+  // No third-party JS/trackers — plain Web APIs only.
+  function eastShare(el){
+    var url = el.getAttribute('data-url') || location.href;
+    var title = el.getAttribute('data-title') || document.title;
+    if (navigator.share){ navigator.share({title:title, url:url}).catch(function(){}); }
+    else { eastCopy(el); }
+  }
+  function eastCopy(el){
+    var url = el.getAttribute('data-url') || location.href;
+    if (navigator.clipboard){
+      navigator.clipboard.writeText(url).then(function(){ eastFlash(el, 'Link copied ✓'); });
+    } else { window.prompt('Copy this link:', url); }
+  }
+  function eastFlash(el, msg){
+    var prev = el.getAttribute('data-label') || el.textContent;
+    el.setAttribute('data-label', prev); el.textContent = msg;
+    setTimeout(function(){ el.textContent = prev; }, 1500);
+  }
+</script>
+</body>
+</html>

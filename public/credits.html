@@ -1,0 +1,129 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Image & Source Credits — EAST</title>
+  <meta name="description" content="Environmental stewardship, transparency, and accountability in the Roanoke Valley.">
+  <link rel="stylesheet" href="static/style.css">
+  <link rel="icon" type="image/png" href="static/img/favicon.png">
+  <link rel="apple-touch-icon" href="static/img/east-logo.png">
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+
+<header class="site">
+  <div class="wrap bar">
+    <a class="brand" href="index.html">
+      <span class="brand-row">
+        <img class="mark-img" src="static/img/east-mark.png" width="44" height="44"
+             alt="" loading="eager" decoding="async">
+        <span class="mark">EAST</span>
+      </span>
+      <span class="sub">Environmental Accountability &amp; Strategy Team</span>
+    </a>
+    <button class="menu-btn" aria-label="Menu" onclick="document.body.classList.toggle('nav-open')">☰</button>
+    <a class="give" href="donate.html">♥ Donate</a>
+    <form class="search-mini" action="search.html" method="get" role="search">
+      <input name="q" type="search" placeholder="Search documents…" aria-label="Search">
+    </form>
+    <nav class="nav">
+      
+      
+        <a href="index.html" class="">Home</a>
+      
+        <a href="topics.html" class="">Topics</a>
+      
+        <a href="debunking.html" class="">Debunking</a>
+      
+        <a href="faq.html" class="">FAQ</a>
+      
+        <a href="take-action.html" class="">Take Action</a>
+      
+        <a href="politicians.html" class="">Officials</a>
+      
+        <a href="wins.html" class="">Wins</a>
+      
+        <a href="history.html" class="">History</a>
+      
+        <a href="blog.html" class="">News</a>
+      
+        <a href="library.html" class="">Documents</a>
+      
+        <a href="contact.html" class="">Contact</a>
+      
+    </nav>
+  </div>
+</header>
+
+<main id="main" class="wrap">
+  
+<h1>Image &amp; Source Attributions</h1>
+<p class="lede">Every image on this site is Creative Commons or public domain, credited by
+  Title, Author, Source, License (TASL). This page is auto-generated from <code>credits.yml</code>.</p>
+
+
+  <ul class="credits">
+    
+      <li>
+        <strong>James River floodplain above Eagle Rock</strong> — Near Eagle Rock, Botetourt County, Virginia<br>
+        by Nyttend ·
+        <a href="https://en.wikipedia.org/wiki/Public_domain" target="_blank" rel="noopener">Public domain</a> ·
+        <a href="https://commons.wikimedia.org/wiki/File:James_River_floodplain_above_Eagle_Rock.jpg" target="_blank" rel="noopener">source</a>
+        <br><span class="muted">Modifications: downscaled to 1600px wide and recompressed for web</span>
+      </li>
+    
+      <li>
+        <strong>Roanoke County, Virginia (manuscript map, 1865)</strong> — Roanoke County, Virginia<br>
+        by Unknown (Library of Congress, Geography &amp; Map Division) ·
+        <a href="https://creativecommons.org/publicdomain/mark/1.0/" target="_blank" rel="noopener">Public domain</a> ·
+        <a href="https://commons.wikimedia.org/wiki/File:Roanoke_County,_Virginia._LOC_2002627464.jpg" target="_blank" rel="noopener">source</a>
+        <br><span class="muted">Modifications: downscaled to 1500px wide and recompressed for web</span>
+      </li>
+    
+      <li>
+        <strong>Tree swallow (Tachycineta bicolor), perched</strong> — Unknown<br>
+        by UNKNOWN — see FIXME above ·
+        <a href="" target="_blank" rel="noopener">UNRESOLVED — do not publish until confirmed</a> ·
+        <a href="" target="_blank" rel="noopener">source</a>
+        <br><span class="muted">Modifications: cropped square to the bird, circular alpha mask, resized (512/128/64)</span>
+      </li>
+    
+  </ul>
+
+
+</main>
+
+<footer class="site">
+  <div class="wrap foot">
+    <p><strong>EAST</strong> — Environmental Accountability &amp; Strategy Team · Roanoke Valley, Botetourt County, and neighboring regions of Virginia</p>
+    <p class="muted">
+      Placeholder POC. Content is not legal-reviewed.
+      <a href="credits.html">Image &amp; source credits</a>
+    </p>
+  </div>
+</footer>
+
+<script>
+  // Native share sheet (mobile includes Instagram, Messages, etc.); clipboard fallback.
+  // No third-party JS/trackers — plain Web APIs only.
+  function eastShare(el){
+    var url = el.getAttribute('data-url') || location.href;
+    var title = el.getAttribute('data-title') || document.title;
+    if (navigator.share){ navigator.share({title:title, url:url}).catch(function(){}); }
+    else { eastCopy(el); }
+  }
+  function eastCopy(el){
+    var url = el.getAttribute('data-url') || location.href;
+    if (navigator.clipboard){
+      navigator.clipboard.writeText(url).then(function(){ eastFlash(el, 'Link copied ✓'); });
+    } else { window.prompt('Copy this link:', url); }
+  }
+  function eastFlash(el, msg){
+    var prev = el.getAttribute('data-label') || el.textContent;
+    el.setAttribute('data-label', prev); el.textContent = msg;
+    setTimeout(function(){ el.textContent = prev; }, 1500);
+  }
+</script>
+</body>
+</html>

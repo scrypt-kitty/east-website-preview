@@ -69,15 +69,36 @@
     <h2>Quick human check</h2>
     <p class="muted">We hide our email from bots. Answer this to reveal it:</p>
     
-    <form method="post" action="contact.html" class="captcha">
+    <div class="captcha">
       <label>What is <strong>8 + 4</strong>?
-        <input name="answer" inputmode="numeric" autocomplete="off" required aria-label="Answer the sum">
+        <input id="cap-a" inputmode="numeric" autocomplete="off" aria-label="Answer the sum">
       </label>
-      <input type="hidden" name="token" value="3e616c9107ac92807be015df1f1f5b18f8fe8773369356071eb3d321c0d897e4">
-      
-      <input type="text" name="website" class="hp" tabindex="-1" autocomplete="off" aria-hidden="true">
-      <button type="submit">Reveal email</button>
-    </form>
+      <button type="button" id="cap-go">Reveal email</button>
+    </div>
+    <p id="cap-out" hidden></p>
+    <p id="cap-err" class="err" hidden>That wasn&rsquo;t right &mdash; try again.</p>
+
+    <p class="mono muted" style="font-size:.78rem;margin-top:14px">Static preview: checked in
+      the browser. The live site verifies this server-side, so the address never reaches the
+      page until the sum is right.</p>
+
+    <script>
+    // Assembled at runtime so the address is never a contiguous string in the HTML.
+    (function () {
+      var go = document.getElementById('cap-go');
+      if (!go) return;
+      go.addEventListener('click', function () {
+        var v   = (document.getElementById('cap-a').value || '').trim();
+        var out = document.getElementById('cap-out');
+        var err = document.getElementById('cap-err');
+        if (parseInt(v, 10) === 12) {
+          var a = ['con','tact'].join(''), b = ['east','coalition','.com'].join('');
+          out.innerHTML = '<a href="mai'+'lto:'+a+'@'+b+'">'+a+'@'+b+'</a>';
+          out.hidden = false; err.hidden = true;
+        } else { err.hidden = false; out.hidden = true; }
+      });
+    })();
+    </script>
   
 </div>
 
@@ -85,11 +106,10 @@
   across the Roanoke Valley — Project Raspberry is our current campaign, not our only concern.</p>
 
 <div class="card">
-  <h2 style="margin-top:.2em">Contact</h2>
-  <p>EAST's public address is <strong>contact@eastcoalition.com</strong> — a role address on the
-    coalition's own domain, so it outlives any one volunteer.</p>
-  <p class="muted">Reach out about volunteering, tabling at an event, guidance for another
-    community facing a data center, or if you own property near the Greenfield site.</p>
+  <h2 style="margin-top:.2em">What to write about</h2>
+  <p class="muted">Volunteering, tabling at an event, guidance for another community facing a
+    data center, or if you own property near the Greenfield site. The address is a role account
+    on the coalition&rsquo;s own domain, so it outlives any one volunteer.</p>
 </div>
 
 </main>

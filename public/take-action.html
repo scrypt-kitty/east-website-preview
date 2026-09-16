@@ -6,46 +6,43 @@
   <title>Take Action — EAST</title>
   <meta name="description" content="Environmental stewardship, transparency, and accountability in the Roanoke Valley.">
   <link rel="stylesheet" href="static/style.css">
+  <link rel="stylesheet" href="static/sp-2026-09-11.css">
   <link rel="icon" type="image/png" href="static/img/favicon.png">
   <link rel="apple-touch-icon" href="static/img/east-logo.png">
 </head>
 <body>
 <a class="skip" href="#main">Skip to content</a>
 
+<div class="demo-banner">DEMO · static mock for feedback — no live data, forms are illustrative</div>
+
 <header class="site">
   <div class="wrap bar">
     <a class="brand" href="index.html">
-      <span class="brand-row">
-        <img class="mark-img" src="static/img/east-mark.png" width="44" height="44"
-             alt="" loading="eager" decoding="async">
+      <img class="mark-img" src="static/img/east-logo.png" width="76" height="76"
+           alt="" loading="eager" decoding="async">
+      <span class="brand-text">
         <span class="mark">EAST</span>
+        <span class="sub">Environmental Accountability &amp; Strategy Team</span>
       </span>
-      <span class="sub">Environmental Accountability &amp; Strategy Team</span>
     </a>
     <button class="menu-btn" aria-label="Menu" onclick="document.body.classList.toggle('nav-open')">☰</button>
-    <a class="join" href="take-action.html#join">Join</a>
-    <a class="give" href="donate.html">♥ Donate</a>
-    <form class="search-mini" action="search.html" method="get" role="search">
-      <input name="q" type="search" placeholder="Search documents…" aria-label="Search">
-    </form>
+    <div class="bar-actions">
+      <a class="give" href="donate.html">♥ Donate</a>
+      <a class="join" href="take-action.html#join">Join</a>
+      <form class="search-mini" action="search.html" method="get" role="search">
+        <input name="q" type="search" placeholder="Search documents…" aria-label="Search">
+      </form>
+    </div>
     <nav class="nav">
       
       
         <a href="index.html" class="">Home</a>
       
-        <a href="topics.html" class="">Topics</a>
-      
-        <a href="debunking.html" class="">Debunking</a>
-      
-        <a href="faq.html" class="">FAQ</a>
+        <a href="topics.html" class="">Campaigns</a>
       
         <a href="take-action.html" class="on">Take Action</a>
       
-        <a href="politicians.html" class="">Officials</a>
-      
         <a href="wins.html" class="">Wins</a>
-      
-        <a href="history.html" class="">History</a>
       
         <a href="blog.html" class="">News</a>
       
@@ -57,6 +54,11 @@
   </div>
 </header>
 
+<div class="campaign-bar">
+  <span class="kicker">EAST&#39;s current campaign</span>
+  No Dirty Data Centers in Botetourt County
+</div>
+
 <main id="main" class="wrap">
   
 <h1>Take Action</h1>
@@ -65,15 +67,66 @@
 
 <section class="card" id="join">
   <h2 style="margin-top:.2em">Join EAST</h2>
-  <p>Add your name and we'll tell you when a hearing, comment deadline, or records
-    release actually matters. No spam, and we don't share the list.</p>
-  <a class="btn primary" href="https://tally.so/r/5B0XV6" rel="noopener">Sign up to join</a>
-  <p class="muted" style="margin-top:14px">Or scan this at a meeting or from a flyer:</p>
+  <p>Add your name and we&#39;ll tell you when a hearing, comment deadline, or records
+    release actually matters. No spam, and we don&#39;t share the list.</p>
+
+  <form class="memberform" action="#" method="post"
+        onsubmit="event.preventDefault();document.getElementById('join-ok').hidden=false;">
+    <div class="row2">
+      <label>First name
+        <input name="first" autocomplete="given-name" required>
+      </label>
+      <label>Last name
+        <input name="last" autocomplete="family-name" required>
+      </label>
+    </div>
+    <label>Email
+      <input name="email" type="email" autocomplete="email" required>
+    </label>
+    <div class="row2">
+      <label>Mobile <span class="muted" style="font-weight:400">(optional — hearing alerts)</span>
+        <input name="phone" type="tel" autocomplete="tel">
+      </label>
+      <label>ZIP code
+        <input name="zip" inputmode="numeric" autocomplete="postal-code" required>
+      </label>
+    </div>
+    <label>Locality
+      <select name="locality">
+        <option>Botetourt County</option>
+        <option>Roanoke County</option>
+        <option>City of Roanoke</option>
+        <option>Rockbridge County</option>
+        <option>Elsewhere in Virginia</option>
+        <option>Outside Virginia</option>
+      </select>
+    </label>
+
+    <div class="enlisted">
+      <label for="enlisted">Date of enlisting — recorded with every membership</label>
+      <input id="enlisted" name="enlisted_on" type="date" readonly>
+      <p class="muted mono" style="font-size:.8rem;margin:8px 0 0">Set automatically when the form is
+        submitted and stored with the record, so the roster can be sorted and reported by join date.</p>
+    </div>
+
+    <button type="submit">Join EAST</button>
+    <p id="join-ok" hidden class="err" style="color:var(--fg);font-weight:700">
+      Demo only — nothing was submitted. In production this writes to the membership roster with the
+      enlisting date above.</p>
+  </form>
+
+  <p class="muted" style="margin-top:22px">Or scan this at a meeting or from a flyer:</p>
   <img class="join-qr" src="static/img/membership-qr.png" width="150" height="150"
        alt="QR code linking to the EAST membership signup form">
-  <p class="muted mono" style="font-size:.78rem">The signup form is hosted by Tally —
-    the only page on this site that hands you to a third party. We link out rather than
-    embedding it so no external script runs here.</p>
+
+  <script>
+    // Stamp today's date so the "date of enlisting" is visible before submit.
+    (function(){
+      var d = new Date(), p = function(n){ return String(n).padStart(2,'0'); };
+      document.getElementById('enlisted').value =
+        d.getFullYear() + '-' + p(d.getMonth()+1) + '-' + p(d.getDate());
+    })();
+  </script>
 </section>
 
 <nav class="toc" aria-label="On this page">
@@ -247,7 +300,8 @@
 
 <footer class="site">
   <div class="wrap foot">
-    <p><strong>EAST</strong> — Environmental Accountability &amp; Strategy Team · Roanoke Valley, Botetourt County, and neighboring regions of Virginia</p>
+    <p class="foot-tagline">Botetourt, Roanoke, and connected Appalachia working together</p>
+    <p><strong>EAST</strong> — Environmental Accountability &amp; Strategy Team</p>
     <p class="muted">
       Placeholder POC. Content is not legal-reviewed.
       <a href="credits.html">Image &amp; source credits</a>
